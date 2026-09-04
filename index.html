@@ -6,31 +6,97 @@
 <meta name="theme-color" content="#15122b">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-192.png">
-<title>Questly ✦</title>
+<title>Questly — Your Space</title>
 <style>
-:root{--bg:#0d1020;--panel:#171a30;--panel2:#20254a;--line:#3a4070;--text:#f7f5ff;--muted:#abb0ce;--accent:#9188ff;--gold:#ffd76b;--good:#79d7a2}
-*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
-button,input,select{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}
-.app{width:min(700px,100%);min-height:100vh;margin:auto;padding-bottom:92px;background:radial-gradient(circle at 50% -10%,#302968 0,#12162a 45%,var(--bg) 75%)}
-header{padding:calc(14px + env(safe-area-inset-top)) 16px 12px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5;background:#101329ee;backdrop-filter:blur(14px)}
-.brand{font-weight:950;font-size:25px}.headerBtns{display:flex;gap:8px}.round{width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:var(--panel);color:white}
-main{padding:12px 16px}.screen{display:none}.screen.active{display:block}
-.card{background:linear-gradient(160deg,var(--panel),#14172d);border:1px solid var(--line);border-radius:22px;padding:17px;margin-bottom:13px;box-shadow:0 10px 28px #0003}
-.profile{display:flex;gap:15px;align-items:center}.avatar{width:82px;height:82px;border-radius:22px;background:linear-gradient(145deg,#64b9ef,#5142a8);display:grid;place-items:center;font-size:47px;border:1px solid #8094da}
-.level{font-size:28px;font-weight:950}.sub{color:var(--muted);font-size:14px}.bar{height:12px;background:#080a15;border-radius:99px;overflow:hidden;border:1px solid #303553;margin:9px 0 7px}.fill{height:100%;width:0;background:linear-gradient(90deg,#ffd45b,#9a8cff);transition:width .35s}
-.streak{margin-top:12px;padding:11px 13px;border-radius:16px;background:#11142a;border:1px solid #313758;font-weight:850}
-.focus{display:flex;gap:12px;align-items:center}.brain{font-size:32px}.toggle{width:54px;height:31px;border:0;border-radius:99px;background:#3b426a;padding:3px}.toggle i{display:block;width:25px;height:25px;border-radius:50%;background:#fff;transition:.2s}.toggle.on{background:#6f66df}.toggle.on i{transform:translateX(23px)}
-.rule,.tiny{font-size:13px;line-height:1.45;color:#c5c8dc}.sectionTitle{font-size:21px;font-weight:950;margin:20px 2px 10px}
-.quest{width:100%;text-align:left;color:white;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px}.qicon{width:48px;height:48px;border-radius:15px;background:#282c4c;display:grid;place-items:center;font-size:24px;flex:none}.quest h3{margin:0 0 4px;font-size:16px}.quest p{margin:0;color:var(--muted);font-size:13px}.xp{margin-left:auto;color:var(--gold);font-weight:950;white-space:nowrap}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.choice{background:#1d213a;border:1px solid var(--line);color:#fff;border-radius:17px;padding:13px;text-align:center}.choice.selected{border-color:var(--accent);background:#2b2751;box-shadow:0 0 0 2px #9188ff33}
-.primary{background:var(--accent);color:#fff;border:0;border-radius:15px;padding:13px 17px;font-weight:900}.secondary{background:#252944;color:#fff;border:1px solid var(--line);border-radius:15px;padding:11px 15px;font-weight:800}.full{width:100%}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.stat{background:#11142a;border:1px solid var(--line);border-radius:16px;padding:12px;text-align:center}.stat b{font-size:21px;display:block}
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(700px,100%);padding:8px 8px calc(8px + env(safe-area-inset-bottom));background:#111329f2;backdrop-filter:blur(16px);border-top:1px solid #303553;display:grid;grid-template-columns:repeat(4,1fr);z-index:10}.nav button{background:none;border:0;color:#858aa9;padding:4px}.nav button.active{color:#9d94ff}.nav span{display:block;font-size:22px}.nav small{font-size:11px;font-weight:850}
-.sheet{position:fixed;inset:auto 0 0;max-width:700px;margin:auto;background:var(--panel);border:1px solid var(--line);border-radius:25px 25px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom));max-height:90vh;overflow:auto;z-index:20;display:none}.sheet.show{display:block}.overlay{position:fixed;inset:0;background:#050611aa;backdrop-filter:blur(8px);display:none;z-index:19}.overlay.show{display:block}
-input,select{width:100%;background:#11142a;color:#fff;border:1px solid var(--line);border-radius:13px;padding:12px;margin:5px 0 10px}label{font-size:13px;color:var(--muted)}
-.badge{display:flex;gap:12px;align-items:center;background:#11142a;border:1px solid var(--line);border-radius:17px;padding:12px;margin-bottom:9px}.badgeIcon{font-size:30px;width:42px;text-align:center}.locked{opacity:.45}
-.toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:#f4f1ff;color:#15122b;padding:12px 16px;border-radius:15px;font-weight:850;display:none;z-index:30;box-shadow:0 8px 25px #0005;max-width:90%;text-align:center}
-.theme-ocean{--accent:#55b7e8;--panel:#152330;--panel2:#1b3448}.theme-forest{--accent:#69c27d;--panel:#14241b;--panel2:#203728}.theme-sunset{--accent:#ff9b6a;--panel:#2b1b24;--panel2:#452433}
+:root{
+  --bg:#0b0c12;--panel:#14161f;--panel2:#1b1e2a;--line:#303442;
+  --text:#f4f3f7;--muted:#a6a8b5;--accent:#a99cff;--gold:#e7c56b;--good:#79d7a2
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.app{width:min(700px,100%);min-height:100vh;margin:auto;padding-bottom:92px;
+background:radial-gradient(circle at 50% -15%,#252238 0,#11131b 42%,var(--bg) 76%)}
+header{padding:calc(14px + env(safe-area-inset-top)) 18px 13px;display:flex;
+justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5;
+background:#0d0f17e8;backdrop-filter:blur(18px);border-bottom:1px solid #242733}
+.brand{font-weight:800;font-size:24px;letter-spacing:-.6px}
+.headerBtns{display:flex;gap:8px}
+.round{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);
+background:#171923;color:white}
+main{padding:14px 17px}.screen{display:none}.screen.active{display:block}
+.card{background:linear-gradient(145deg,#161923,#12141c);border:1px solid var(--line);
+border-radius:17px;padding:16px;margin-bottom:11px;box-shadow:0 8px 24px #0004}
+.profile{display:flex;gap:14px;align-items:center}
+.avatar{width:72px;height:72px;border-radius:18px;background:linear-gradient(145deg,#7770aa,#3b3b5e);
+display:grid;place-items:center;font-size:41px;border:1px solid #6f7190}
+.level{font-size:27px;font-weight:800;letter-spacing:-.5px}
+.sub{color:var(--muted);font-size:14px}.bar{height:9px;background:#08090e;border-radius:99px;
+overflow:hidden;border:1px solid #292c37;margin:9px 0 7px}
+.fill{height:100%;width:0;background:linear-gradient(90deg,#d7bd68,#9c91ff);transition:width .35s}
+.streak{margin-top:11px;padding:10px 12px;border-radius:12px;background:#11131b;
+border:1px solid #2a2d38;font-weight:750}
+.focus{display:flex;gap:12px;align-items:center}.brain{font-size:27px}
+.toggle{width:52px;height:29px;border:0;border-radius:99px;background:#383c4d;padding:3px}
+.toggle i{display:block;width:23px;height:23px;border-radius:50%;background:#fff;transition:.2s}
+.toggle.on{background:#766bd0}.toggle.on i{transform:translateX(23px)}
+.rule,.tiny{font-size:13px;line-height:1.45;color:#b8bac5}
+.sectionTitle{font-size:20px;font-weight:800;letter-spacing:-.2px;margin:19px 2px 10px}
+.quest{width:100%;text-align:left;color:white;background:#151720;border:1px solid var(--line);
+border-radius:15px;padding:13px;margin-bottom:9px;display:flex;align-items:center;gap:11px}
+.qicon{width:43px;height:43px;border-radius:12px;background:#222531;display:grid;
+place-items:center;font-size:21px;flex:none}
+.quest h3{margin:0 0 4px;font-size:15px}.quest p{margin:0;color:var(--muted);font-size:13px}
+.xp{margin-left:auto;color:var(--gold);font-weight:850;white-space:nowrap}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.choice{background:#191c26;border:1px solid #303442;color:#fff;border-radius:13px;
+padding:11px;text-align:center}.choice.selected{border-color:var(--accent);
+background:#242137;box-shadow:0 0 0 1px #a99cff33}
+.primary{background:#9f95ed;color:#12131a;border:0;border-radius:12px;padding:12px 16px;font-weight:850}
+.secondary{background:#1b1e28;color:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-weight:750}
+.full{width:100%}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:#11131b;border:1px solid #2c2f3a;border-radius:13px;padding:11px;text-align:center}
+.stat b{font-size:20px;display:block}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(700px,100%);
+padding:7px 8px calc(7px + env(safe-area-inset-bottom));background:#10121aeF;
+backdrop-filter:blur(18px);border-top:1px solid #292c37;display:grid;
+grid-template-columns:repeat(4,1fr);z-index:10}
+.nav button{background:none;border:0;color:#7f8292;padding:4px}.nav button.active{color:#b2a9ff}
+.nav span{display:block;font-size:20px}.nav small{font-size:11px;font-weight:750}
+.sheet{position:fixed;inset:auto 0 0;max-width:700px;margin:auto;background:#151720;
+border:1px solid #303442;border-radius:20px 20px 0 0;padding:19px 17px calc(19px + env(safe-area-inset-bottom));
+max-height:90vh;overflow:auto;z-index:20;display:none}.sheet.show{display:block}
+.overlay{position:fixed;inset:0;background:#05060bcc;backdrop-filter:blur(7px);display:none;z-index:19}
+.overlay.show{display:block}
+input,select{width:100%;background:#10121a;color:#fff;border:1px solid #303442;border-radius:11px;
+padding:11px;margin:5px 0 10px}label{font-size:13px;color:var(--muted)}
+.badge{display:flex;gap:12px;align-items:center;background:#11131b;border:1px solid #2d303b;
+border-radius:13px;padding:11px;margin-bottom:8px}.badgeIcon{font-size:27px;width:38px;text-align:center}.locked{opacity:.42}
+.toast{position:fixed;left:50%;bottom:98px;transform:translateX(-50%);background:#eeeafa;
+color:#15151c;padding:11px 15px;border-radius:12px;font-weight:800;display:none;z-index:30;
+box-shadow:0 8px 25px #0006;max-width:90%;text-align:center}
+.theme-ocean{--accent:#71b9d8;--panel:#151e26;--panel2:#1c2d38}
+.theme-forest{--accent:#83bf8e;--panel:#151d18;--panel2:#1d2c22}
+.theme-sunset{--accent:#d99573;--panel:#24191a;--panel2:#352121}
+
+
+.roomScene{border:1px solid #343744;border-radius:18px;overflow:hidden;background:#0d0f15;box-shadow:inset 0 -35px 0 #11141c}.roomWall{height:270px;position:relative;background:linear-gradient(#242735 0 72%,#171a22 72%);overflow:hidden}.window{position:absolute;right:18px;top:20px;width:82px;height:64px;border:4px solid #3d4352;border-radius:7px;background:linear-gradient(135deg,#3a5065,#202b38);color:#8d94a5;display:grid;place-items:center}.roomSign{position:absolute;left:18px;top:18px;font-weight:850;color:#e8e8ee;font-size:14px}.characterInRoom{position:absolute;left:50%;top:74px;transform:translateX(-50%);font-size:52px;z-index:2}.floor{position:absolute;left:0;right:0;bottom:0;height:75px;background:repeating-linear-gradient(90deg,#1a1d25 0 54px,#20232c 55px 58px)}.roomFurniture{position:absolute;left:14px;right:14px;bottom:16px;display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;z-index:3}.roomFurniture span{background:#11141b;border:1px solid #343845;border-radius:10px;padding:8px 10px;font-size:24px;box-shadow:0 4px 10px #0006}.house{display:none}
+
+.house{min-height:210px;border:1px solid #343744;border-radius:18px;background:linear-gradient(145deg,#25222f,#171923);position:relative;overflow:hidden;padding:18px}.houseRoof{font-size:56px;text-align:center}.room{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px}.room span{background:#10121a;border:1px solid #303442;border-radius:10px;padding:8px;text-align:center;font-size:25px}.swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.swatch{height:44px;border-radius:11px;border:2px solid #353847}.swatch.selected{border-color:#fff;box-shadow:0 0 0 2px var(--accent)}.leaderRow{display:grid;grid-template-columns:36px 1fr auto;gap:9px;align-items:center;padding:11px 0;border-bottom:1px solid #292c37}.rank{font-weight:900;color:var(--gold)}.pill{display:inline-block;padding:4px 8px;border-radius:99px;background:#232633;color:#bfc1cc;font-size:11px;font-weight:750}.rewardItem{display:flex;align-items:center;gap:10px;background:#11131b;border:1px solid #2d303b;border-radius:13px;padding:11px;margin-bottom:8px}.rewardIcon{font-size:29px;width:42px;text-align:center}.mini{font-size:12px;color:var(--muted)}
+
+/* v10 customization */
+.roomScene{min-height:345px}.roomWall{height:345px}
+.roomObject{position:absolute;z-index:4;background:#11141bcc;border:1px solid #454957;border-radius:12px;padding:7px 9px;font-size:24px;box-shadow:0 5px 12px #0007}
+.roomObject small{display:block;font-size:9px;color:#b9bbc5;margin-top:2px}
+.roomObject:hover{border-color:var(--accent);transform:translateY(-1px)}
+.obj-bed{left:20px;bottom:88px}.obj-desk{right:18px;bottom:84px}.obj-chair{right:78px;bottom:76px}.obj-plant{left:118px;bottom:80px}.obj-lamp{right:126px;bottom:91px}.obj-art{left:28px;top:96px}.obj-pet{right:25px;top:104px}
+.characterStack{position:absolute;left:50%;top:105px;transform:translateX(-50%);font-size:52px;z-index:5;text-align:center}.characterStack .clothes{display:block;font-size:25px;margin-top:-8px}
+.outfitCard{position:relative;overflow:hidden}.outfitPreview{height:86px;border-radius:14px;background:#11131b;border:1px solid #2e313c;display:grid;place-items:center;font-size:42px;margin-bottom:8px}
+.outfitTag{font-size:11px;color:#aeb0bb}.owned{border-color:#8d82e8!important;background:#211f35!important}
+.chip{display:inline-block;padding:5px 8px;border:1px solid #303442;border-radius:99px;color:#b7b9c4;font-size:11px;margin:3px}
 </style>
 </head>
 <body>
@@ -38,38 +104,46 @@ input,select{width:100%;background:#11142a;color:#fff;border:1px solid var(--lin
 <header><div class="brand">Questly✦</div><div class="headerBtns"><button class="round" onclick="openSheet('settings')">⚙️</button><button class="round" onclick="showScreen('character')">🧙</button></div></header>
 <main>
 <section id="home" class="screen active">
-<div class="card"><div class="profile"><div class="avatar" id="homeAvatar">🧙</div><div style="flex:1"><div class="sub">Level <span id="level">0</span></div><div class="level">Adventurer</div><div class="bar"><div class="fill" id="xpFill"></div></div><div class="sub"><b id="xpText">0 / 100 XP</b></div></div></div><div class="streak">🔥 <span id="streak">0</span> day streak <span class="sub" style="float:right">Progress counts!</span></div></div>
+<div class="card"><div class="profile"><div class="avatar" id="homeAvatar">🧙</div><div style="flex:1"><div class="sub">Level <span id="level">0</span></div><div class="level">Quest Runner</div><div class="bar"><div class="fill" id="xpFill"></div></div><div class="sub"><b id="xpText">0 / 100 XP</b></div></div></div><div class="streak">🔥 <span id="streak">0</span> day streak <span class="sub" style="float:right">Progress counts!</span></div></div>
 <div class="card focus"><div class="brain">🧠</div><div style="flex:1"><b>Focus Mode</b><div class="sub">One quest at a time. No pressure to do everything.</div></div><button class="toggle" id="focusToggle" onclick="toggleFocus()"><i></i></button></div>
-<div class="card rule">🌿 <b>Questly rule:</b> progress is progress. Missing a quest or taking a break doesn't reset your worth or your progress.</div>
+<div class="card rule">✦ <b>Questly rule:</b> progress is progress. Missing a quest or taking a break doesn't reset your worth or your progress.</div>
 <div class="stats"><div class="stat">💰<b id="coins">0</b><span class="tiny">coins</span></div><div class="stat">⚔️<b id="done">0</b><span class="tiny">quests</span></div><div class="stat">🏆<b id="badgesCount">0</b><span class="tiny">badges</span></div></div>
-<div class="sectionTitle">⚔️ Today's Quests</div><div id="homeQuests"></div>
+<div class="sectionTitle">✓ Today's Quests</div><div id="homeQuests"></div>
 </section>
 
-<section id="quests" class="screen"><div class="sectionTitle">⚔️ Quests</div>
-<div class="card"><b>How much energy do you have?</b><div class="sub" style="margin-top:5px">Pick a size if you want one. You can always change your mind.</div><div class="grid" style="margin-top:12px"><button class="choice" onclick="setEnergy(this,'Tiny')">🌱<br><b>Tiny</b><br><span class="tiny">1–3 min</span></button><button class="choice" onclick="setEnergy(this,'Normal')">🌿<br><b>Normal</b><br><span class="tiny">5–15 min</span></button><button class="choice" onclick="setEnergy(this,'Big')">🌳<br><b>Big</b><br><span class="tiny">15+ min</span></button></div><div id="energyText" class="tiny" style="margin-top:10px">No choice is required.</div></div>
+<section id="quests" class="screen"><div class="sectionTitle">✓ Quests</div>
+<div class="card"><b>What's your energy like?</b><div class="sub" style="margin-top:5px">Pick a size if you want one. You can always change your mind.</div><div class="grid" style="margin-top:12px"><button class="choice" onclick="setEnergy(this,'Tiny')">•<br><b>Tiny</b><br><span class="tiny">1–3 min</span></button><button class="choice" onclick="setEnergy(this,'Normal')">••<br><b>Normal</b><br><span class="tiny">5–15 min</span></button><button class="choice" onclick="setEnergy(this,'Big')">•••<br><b>Big</b><br><span class="tiny">15+ min</span></button></div><div id="energyText" class="tiny" style="margin-top:10px">No choice is required.</div></div>
 <div id="questList"></div>
 <button class="secondary full" onclick="openSheet('customQuest')">➕ Create your own quest</button>
 </section>
 
-<section id="world" class="screen"><div class="sectionTitle">🗺️ World</div>
-<div class="card center"><div style="font-size:58px">🏡🌿</div><h2>Cozy Meadow</h2><p class="sub">Your home base grows as you complete quests.</p><div class="bar"><div class="fill" id="meadowFill"></div></div><p class="tiny" id="meadowText">0 / 5 quests</p></div>
-<div class="card" id="forestCard"><div class="row"><div><b>🌲 Forest of Focus</b><div class="sub">Unlock at Level 3</div></div><span id="forestLock">🔒</span></div></div>
-<div class="card" id="summitCard"><div class="row"><div><b>🌌 Starry Summit</b><div class="sub">Unlock at Level 6</div></div><span id="summitLock">🔒</span></div></div>
-<div class="card" id="castleCard"><div class="row"><div><b>🏰 Sky Castle</b><div class="sub">Unlock at Level 10</div></div><span id="castleLock">🔒</span></div></div>
-</section>
+<section id="world" class="screen"><div class="sectionTitle">▦ World</div>
+<div class="card"><div class="row"><div><b>🏠 Your Home</b><div class="sub">A space that grows with you.</div></div><span class="pill" id="houseTierLabel">Starter</span></div><div class="roomScene" style="margin-top:12px">
+<div class="roomWall"><div class="window">▦<small>Window</small></div><div class="roomSign"><span id="houseName">Starter Room</span><div class="mini" id="houseDesc">A simple room to make your own.</div></div><div class="characterStack" id="houseEmoji">🧑‍🎓<span class="clothes" id="roomOutfit">•</span></div><button class="roomObject obj-bed" onclick="roomAction('bed')">🛏️<small>Bed · reset</small></button><button class="roomObject obj-desk" onclick="roomAction('desk')">🖥️<small>Desk · focus</small></button><button class="roomObject obj-chair" onclick="roomAction('chair')">🪑<small>Chair</small></button><button class="roomObject obj-plant" onclick="roomAction('plant')">🪴<small>Plant</small></button><button class="roomObject obj-lamp" onclick="roomAction('lamp')">💡<small>Lamp</small></button><button class="roomObject obj-art" onclick="roomAction('art')">🖼️<small>Art</small></button><button class="roomObject obj-pet" onclick="roomAction('pet')">🐾<small>Companion</small></button><div class="floor"></div><div class="roomFurniture" id="roomItems"></div></div>
+</div></div>
+<div class="card"><b>🏠 Home upgrades</b><p class="tiny">Use coins for cosmetic upgrades. Your house never affects your score.</p><div id="houseShop"></div></div>
+<div class="card"><b>🪑 Furniture</b><p class="tiny">Collect pieces and build a room that feels like you.</p><div class="grid" id="furnitureShop"></div></div>
+<div class="card center"><div style="font-size:52px">▦</div><h2>Neighborhood</h2><p class="sub">Your space expands as you complete quests.</p><div class="bar"><div class="fill" id="meadowFill"></div></div><p class="tiny" id="meadowText">0 / 5 quests</p></div>
+<div class="card" id="forestCard"><div class="row"><div><b>📚 Study Spot</b><div class="sub">Unlock at Level 3</div></div><span id="forestLock">🔒</span></div></div>
+<div class="card" id="summitCard"><div class="row"><div><b>🌆 Downtown</b><div class="sub">Unlock at Level 6</div></div><span id="summitLock">🔒</span></div></div>
+<div class="card" id="castleCard"><div class="row"><div><b>🎧 Creative Studio</b><div class="sub">Unlock at Level 10</div></div><span id="castleLock">🔒</span></div></div></section>
 
 <section id="character" class="screen"><div class="sectionTitle">👤 Character</div>
-<div class="card center"><div class="bigEmoji" id="charAvatar" style="font-size:68px">🧙</div><h2 id="characterName">Adventurer</h2><p class="sub">Choose your companion and look.</p>
+<div class="card center"><div class="bigEmoji" id="charAvatar" style="font-size:68px">🧙</div><h2 id="characterName">Quest Runner</h2><p class="sub">Choose your companion and build your space.</p>
 <h3>🐾 Companions</h3><div class="grid"><button class="choice" onclick="choosePet(this,'🐶','Buddy')">🐶<br>Buddy</button><button class="choice" onclick="choosePet(this,'🐱','Miso')">🐱<br>Miso</button><button class="choice" onclick="choosePet(this,'🦊','Ember')">🦊<br>Ember</button><button class="choice" onclick="choosePet(this,'🐸','Sprout')">🐸<br>Sprout</button><button class="choice" onclick="choosePet(this,'🐼','Bean')">🐼<br>Bean</button><button class="choice" onclick="choosePet(this,'🐰','Cloud')">🐰<br>Cloud</button></div><div style="font-size:48px;margin:14px" id="petDisplay">🐶</div><p id="petCheer" class="sub">Buddy is cheering you on!</p></div>
-<div class="card"><b>🎨 Avatar style</b><div class="grid" style="margin-top:12px"><button class="choice" onclick="chooseAvatar(this,'🧙')">🧙<br>Wizard</button><button class="choice" onclick="chooseAvatar(this,'🧝')">🧝<br>Ranger</button><button class="choice" onclick="chooseAvatar(this,'🧑‍🚀')">🧑‍🚀<br>Explorer</button><button class="choice" onclick="chooseAvatar(this,'🧚')">🧚<br>Dreamer</button></div></div>
-<div class="card"><b>🪙 Outfit shop</b><p class="tiny">Spend coins on fun looks. Nothing affects your progress.</p><div class="grid"><button class="choice" onclick="buyOutfit('🎩',50)">🎩<br>Hat · 50</button><button class="choice" onclick="buyOutfit('🕶️',75)">🕶️<br>Shades · 75</button><button class="choice" onclick="buyOutfit('👑',150)">👑<br>Crown · 150</button><button class="choice" onclick="buyOutfit('🪽',200)">🪽<br>Wings · 200</button></div><div class="tiny" style="margin-top:10px">Equipped: <span id="outfit">None</span></div></div>
+<div class="card"><b>🎨 Avatar style</b><div class="grid" style="margin-top:12px"><button class="choice" onclick="chooseAvatar(this,'🧑‍🎓')">🧑‍🎓<br>Student</button><button class="choice" onclick="chooseAvatar(this,'🧑‍💻')">🧑‍💻<br>Creator</button><button class="choice" onclick="chooseAvatar(this,'🎧')">🎧<br>Music</button><button class="choice" onclick="chooseAvatar(this,'🧑‍🎨')">🧑‍🎨<br>Artist</button><button class="choice" onclick="chooseAvatar(this,'👩‍🎓')">👩‍🎓<br>Student</button><button class="choice" onclick="chooseAvatar(this,'👩‍💻')">👩‍💻<br>Creator</button><button class="choice" onclick="chooseAvatar(this,'🎧')">🎧<br>Music</button><button class="choice" onclick="chooseAvatar(this,'👩‍🎨')">👩‍🎨<br>Artist</button><button class="choice" onclick="chooseAvatar(this,'🧑‍🚀')">🧑‍🚀<br>Explorer</button></div></div>
+<div class="card"><b>👕 Wardrobe</b><p class="tiny">Build a look from everyday clothes, accessories and shoes. Style is purely cosmetic.</p><div class="grid" id="outfitShop"></div><div class="tiny" style="margin-top:10px">Equipped: <span id="outfit">None</span></div><div id="wardrobeTags" style="margin-top:8px"></div></div></div>
 </section>
 
-<section id="stats" class="screen"><div class="sectionTitle">📊 Progress</div>
+<section id="stats" class="screen"><div class="sectionTitle">📊 Progress & Rewards</div>
 <div class="stats"><div class="stat">⭐<b id="totalXP">0</b><span class="tiny">total XP</span></div><div class="stat">💰<b id="statsCoins">0</b><span class="tiny">coins</span></div><div class="stat">🔥<b id="statsStreak">0</b><span class="tiny">streak</span></div></div>
-<div class="sectionTitle">🏆 Achievements</div><div id="badges"></div></section>
+<div class="sectionTitle">🏆 Achievements</div><div id="badges"></div><div class="sectionTitle">🎁 Milestone rewards</div><div id="rewardList"></div></section>
+<section id="profile" class="screen"><div class="sectionTitle">◎ Profile</div>
+<div class="card"><div class="row"><div><b>Public nickname</b><div class="sub">Use a nickname, not your real name.</div></div><span class="pill" id="privacyPill">Private</span></div><input id="nickname" maxlength="18" placeholder="e.g. NovaQuest"><label>Age group</label><select id="ageBand"><option value="8-10">8–10</option><option value="11-13">11–13</option><option value="14-17">14–17</option><option value="18+">18+</option></select><label style="display:block;margin:8px 0 4px">Leaderboard</label><button class="choice full" id="leaderOpt" onclick="toggleLeaderboard()">Join the age-group leaderboard: OFF</button><button class="primary full" style="margin-top:9px" onclick="saveProfile()">Save profile</button><p class="tiny" style="margin-top:10px">Leaderboard participation is optional. The prototype uses age groups rather than exact ages and a nickname instead of a real name.</p></div>
+<div class="card"><div class="row"><div><b>🎨 Background</b><div class="sub">Pick the vibe for your home screen.</div></div></div><div class="swatches" style="margin-top:12px"><button class="swatch" style="background:#0b0c12" onclick="setBg('#0b0c12')"></button><button class="swatch" style="background:#17162a" onclick="setBg('#17162a')"></button><button class="swatch" style="background:#11221f" onclick="setBg('#11221f')"></button><button class="swatch" style="background:#251a1b" onclick="setBg('#251a1b')"></button><button class="swatch" style="background:#1c1d28" onclick="setBg('#1c1d28')"></button><button class="swatch" style="background:#20202a" onclick="setBg('#20202a')"></button><button class="swatch" style="background:#101c2a" onclick="setBg('#101c2a')"></button><button class="swatch" style="background:#211d27" onclick="setBg('#211d27')"></button></div></div>
+<div class="card"><div class="row"><div><b>🏆 Age-group leaderboard</b><div class="sub">A safe prototype preview — real shared rankings need an online backend.</div></div><span class="pill" id="leaderStatus">Off</span></div><div id="leaderboard"></div></div></section>
 </main>
-<nav class="nav"><button class="active" data-s="home" onclick="showScreen('home')"><span>🏠</span><small>Home</small></button><button data-s="quests" onclick="showScreen('quests')"><span>⚔️</span><small>Quests</small></button><button data-s="world" onclick="showScreen('world')"><span>🗺️</span><small>World</small></button><button data-s="character" onclick="showScreen('character')"><span>👤</span><small>Character</small></button></nav>
+<nav class="nav"><button class="active" data-s="home" onclick="showScreen('home')"><span>⌂</span><small>Home</small></button><button data-s="quests" onclick="showScreen('quests')"><span>✓</span><small>Quests</small></button><button data-s="world" onclick="showScreen('world')"><span>⌂</span><small>World</small></button><button data-s="character" onclick="showScreen('character')"><span>✦</span><small>Style</small></button><button data-s="profile" onclick="showScreen('profile')"><span>◎</span><small>Profile</small></button></nav>
 
 <div class="overlay" id="overlay" onclick="closeSheets()"></div>
 <div class="sheet" id="questSheet"><div class="row"><h2 id="detailTitle">Quest</h2><button class="round" onclick="closeSheets()">×</button></div><div id="detailIcon" style="font-size:62px;text-align:center">✨</div><p class="sub" id="detailDesc"></p><div class="card"><b>Pick a comfortable version</b><div class="grid" style="margin-top:10px"><button class="choice" onclick="toast('🌱 Tiny is enough.')">🌱 Tiny</button><button class="choice" onclick="toast('🌿 Normal is enough.')">🌿 Normal</button><button class="choice" onclick="toast('🌳 Big is optional.')">🌳 Big</button></div></div><button class="primary full" id="completeBtn" onclick="completeCurrent()">Complete quest</button></div>
@@ -96,11 +170,14 @@ const badges=[
 {id:'coins',icon:'💰',name:'Coin Collector',desc:'Earn 100 coins.',ok:s=>s.coins>=100},
 {id:'streak7',icon:'🔥',name:'Week of Progress',desc:'Reach a 7 day streak.',ok:s=>s.streak>=7}
 ];
-const defaultState={totalXP:0,level:0,xp:0,streak:0,pet:'🐶',petName:'Buddy',avatar:'🧙',outfit:'None',coins:0,completed:0,focus:false,lastQuestDay:'',customQuests:[],ownedOutfits:[],theme:'default',reminderTime:''};
-let state={...defaultState,...(JSON.parse(localStorage.getItem('questlyV5')||'null')||{})};
+const outfits=[
+['hoodie','🧥','Oversized Hoodie',60,'Top'],['denim','👖','Denim Fit',80,'Bottom'],['tee','👕','Everyday Tee',40,'Top'],['jacket','🧥','Street Jacket',140,'Outerwear'],['sweater','🧶','Knit Sweater',120,'Top'],['cargo','👖','Cargo Pants',110,'Bottom'],['sneakers','👟','Sneakers',90,'Shoes'],['boots','🥾','Boots',150,'Shoes'],['cap','🧢','Cap',50,'Accessory'],['beanie','🧢','Beanie',55,'Accessory'],['headphones','🎧','Headphones',100,'Accessory'],['backpack','🎒','Backpack',125,'Accessory'],['glasses','👓','Glasses',70,'Accessory'],['sports','🏀','Sports Set',130,'Set'],['pajamas','😴','Comfy Set',75,'Set']
+];
+const defaultState={totalXP:0,level:0,xp:0,streak:0,pet:'🐶',petName:'Buddy',avatar:'🧑‍🎓',outfit:'None',coins:0,completed:0,focus:false,lastQuestDay:'',customQuests:[],ownedOutfits:[],theme:'default',reminderTime:'',nickname:'',ageBand:'14-17',leaderboard:false,bg:'#0b0c12',houseTier:0,ownedFurniture:[],ownedOutfitIds:[],outfitParts:[]};
+let state={...defaultState,...(JSON.parse(localStorage.getItem('questlyV8')||'null')||{})};
 let current=null;
 
-function save(){localStorage.setItem('questlyV5',JSON.stringify(state))}
+function save(){localStorage.setItem('questlyV10',JSON.stringify(state))}
 function allQuests(){return [...baseQuests,...state.customQuests]}
 function xpNeeded(){return 100}
 function questHTML(q){return `<button class="quest" onclick="openQuest('${q.id}')"><div class="qicon">${q.icon}</div><div style="min-width:0"><h3>${q.title}</h3><p>${q.desc}</p></div><div class="xp">+${q.xp}</div></button>`}
@@ -125,12 +202,13 @@ document.getElementById('homeAvatar').textContent=state.avatar+((state.outfit&&s
 document.getElementById('charAvatar').textContent=state.avatar;
 document.getElementById('petDisplay').textContent=state.pet;
 document.getElementById('petCheer').textContent=`${state.petName} is cheering you on!`;
-document.getElementById('outfit').textContent=state.outfit;
+const oo=outfits.find(x=>x[0]===state.outfit);document.getElementById('outfit').textContent=oo?oo[2]:'None';document.getElementById('roomOutfit').textContent=oo?oo[1]:'•';renderOutfitShop();
 document.getElementById('focusToggle').classList.toggle('on',state.focus);
 document.getElementById('meadowFill').style.width=Math.min(100,state.completed/5*100)+'%';
-document.getElementById('meadowText').textContent=`${state.completed%6} / 5 quests toward the next meadow milestone`;
+document.getElementById('meadowText').textContent=`${Math.min(5,state.completed%6)} / 5 quests toward the next meadow milestone`;
 [['forest',3],['summit',6],['castle',10]].forEach(([name,lvl])=>{const unlocked=state.level>=lvl;document.getElementById(name+'Lock').textContent=unlocked?'✨':'🔒';document.getElementById(name+'Card').classList.toggle('locked',!unlocked)});
 document.getElementById('themeSelect').value=state.theme;document.getElementById('reminderTime').value=state.reminderTime||'';
+document.body.style.background=state.bg||'#0b0c12';document.getElementById('nickname').value=state.nickname||'';document.getElementById('ageBand').value=state.ageBand||'14-17';document.getElementById('leaderOpt').textContent='Join the age-group leaderboard: '+(state.leaderboard?'ON':'OFF');document.getElementById('privacyPill').textContent=state.leaderboard?'Leaderboard ON':'Private';document.getElementById('leaderStatus').textContent=state.leaderboard?'On':'Off';renderHouse();renderLeaderboard();renderRewards();
 document.getElementById('app').className='app'+(state.theme==='default'?'':' theme-'+state.theme)
 }
 function renderBadges(){
@@ -152,13 +230,13 @@ openSheet('questSheet')
 function completeCurrent(){
 if(!current)return;
 const oldLevel=state.level;
-state.totalXP+=current.xp;state.xp+=current.xp;state.coins+=Math.max(1,Math.floor(current.xp/10));state.completed++;
+state.totalXP+=current.xp;state.xp+=current.xp;let earnedCoins=Math.max(1,Math.floor(current.xp/10));if(state.completed===0)earnedCoins+=15;state.coins+=earnedCoins;state.completed++;
 while(state.xp>=xpNeeded()){state.xp-=xpNeeded();state.level++}
 const today=new Date().toISOString().slice(0,10);
 if(state.lastQuestDay!==today){state.streak++;state.lastQuestDay=today}
 save();render();
-let msg=`+${current.xp} XP · +${Math.max(1,Math.floor(current.xp/10))} coins.`;
-if(state.level>oldLevel)msg+=` 🎊 You reached Level ${state.level}!`;
+let msg=`+${current.xp} XP · +${earnedCoins} coins.`;
+if(state.level>oldLevel){const bonus=25* (state.level-oldLevel);state.coins+=bonus;save();msg+=` 🎊 Level ${state.level}! +${bonus} bonus coins.`;}
 document.getElementById('rewardText').textContent=msg+' 🌟 One step is enough.';
 closeSheets();setTimeout(()=>openSheet('rewardSheet'),120)
 }
@@ -166,7 +244,7 @@ function toggleFocus(){state.focus=!state.focus;save();updateUI();toast(state.fo
 function setEnergy(el,name){document.querySelectorAll('#quests .choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');document.getElementById('energyText').textContent=`${name} quests are a good fit right now.`}
 function choosePet(el,p,name){el.parentElement.querySelectorAll('.choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');state.pet=p;state.petName=name;save();updateUI();toast('🐾 Companion chosen!')}
 function chooseAvatar(el,a){el.parentElement.querySelectorAll('.choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');state.avatar=a;save();updateUI();toast('✨ Avatar updated!')}
-function buyOutfit(o,cost){if(state.ownedOutfits.includes(o)){state.outfit=o;save();updateUI();toast('✨ Outfit equipped!');return}if(state.coins<cost){toast(`You need ${cost-state.coins} more coins.`);return}state.coins-=cost;state.ownedOutfits.push(o);state.outfit=o;save();updateUI();toast('🪄 New look unlocked!')}
+function buyOutfit(id){const o=outfits.find(x=>x[0]===id);if(!o)return;if((state.ownedOutfitIds||[]).includes(id)){state.outfit=id;save();updateUI();toast('✓ Outfit equipped!');return}if(state.coins<o[3]){toast(`You need ${o[3]-state.coins} more coins.`);return}state.coins-=o[3];state.ownedOutfitIds=(state.ownedOutfitIds||[]).concat(id);state.outfit=id;save();updateUI();toast(`${o[1]} ${o[2]} unlocked!`)}if(state.coins<cost){toast(`You need ${cost-state.coins} more coins.`);return}state.coins-=cost;state.ownedOutfits.push(o);state.outfit=o;save();updateUI();toast('🪄 New look unlocked!')}
 function createCustomQuest(){
 const name=document.getElementById('customName').value.trim();const xp=Number(document.getElementById('customXP').value);
 if(!name){toast('Give your quest a name first.');return}
@@ -175,6 +253,20 @@ save();render();document.getElementById('customName').value='';closeSheets();toa
 }
 function setTheme(t){state.theme=t;save();updateUI();toast('🎨 Theme changed!')}
 function saveReminder(v){state.reminderTime=v;save();toast(v?`🔔 Reminder preference saved for ${v}.`:'🔕 Reminder cleared.')}
+
+const houses=[{name:'Starter Room',emoji:'🧑‍🎓',desc:'A simple room to make your own.',cost:0},{name:'Apartment',emoji:'🧑‍💻',desc:'More space for your setup.',cost:120},{name:'Loft',emoji:'🎧',desc:'A bigger place with room to customize.',cost:300},{name:'Townhouse',emoji:'🏠',desc:'Your biggest home with extra room.',cost:600}];
+const furniture=[['🛏️','Bed',60],['🖥️','Desk',70],['🪑','Chair',35],['💡','Lamp',25],['📚','Bookshelf',55],['🪴','Plant',30],['🖼️','Poster',45],['🎧','Headphones',80],['🛋️','Sofa',90],['🧺','Basket',25],['🕯️','Candle',20],['🧸','Plush',40]];
+const milestoneRewards=[{at:1,icon:'🎟️',name:'First Quest Bonus',desc:'+15 bonus coins on your first completed quest.'},{at:5,icon:'🎧',name:'Focus Badge',desc:'A profile badge for getting started.'},{at:10,icon:'🪑',name:'Room Starter Pack',desc:'A free chair for your room.'},{at:25,icon:'🖼️',name:'Wall Drop',desc:'Unlock a free poster for your room.'},{at:250,icon:'✦',name:'250 XP Title',desc:'Unlock the title “On a Roll”.'}];
+function renderOutfitShop(){const box=document.getElementById('outfitShop');if(!box)return;box.innerHTML=outfits.map(o=>{const own=(state.ownedOutfitIds||[]).includes(o[0]);const eq=state.outfit===o[0];return `<button class="choice outfitCard ${eq?'owned':''}" onclick="buyOutfit('${o[0]}')"><div class="outfitPreview">${o[1]}</div><b>${o[2]}</b><div class="outfitTag">${o[4]} · ${own?(eq?'Equipped':'Owned'):o[3]+' coins'}</div></button>`}).join('')}
+function roomAction(kind){const messages={bed:'🛏️ Reset zone: take a break or choose a tiny quest.',desk:'🖥️ Focus zone: try one short quest.',chair:'🪑 Comfy spot: sit down and choose your pace.',plant:'🪴 Your room is allowed to be imperfect.',lamp:'💡 Lighting changed in your imagination — cozy mode.',art:'🖼️ Your space should reflect your style, not perfection.',pet:`🐾 ${state.petName||'Your companion'} is hanging out with you!`};toast(messages[kind]||'Your room is yours.')}
+function renderHouse(){const h=houses[state.houseTier]||houses[0];document.getElementById('houseTierLabel').textContent=h.cost?`Tier ${state.houseTier+1}`:'Starter';document.getElementById('houseEmoji').textContent=h.emoji;document.getElementById('houseName').textContent=h.name;document.getElementById('houseDesc').textContent=h.desc;document.getElementById('roomItems').innerHTML=(state.ownedFurniture||[]).slice(-8).map(i=>`<span>${i}</span>`).join('')||'<span>☕</span><span>🧺</span>';document.getElementById('houseShop').innerHTML=houses.map((x,i)=>`<div class="rewardItem"><div class="rewardIcon">${x.emoji}</div><div style="flex:1"><b>${x.name}</b><div class="mini">${x.cost?x.cost+' coins':'Included'}</div></div><button class="secondary" ${i<=state.houseTier?'disabled':''} onclick="buyHouse(${i})">${i<=state.houseTier?'Owned':(x.cost+' coins')}</button></div>`).join('');document.getElementById('furnitureShop').innerHTML=furniture.map(([e,n,c])=>`<button class="choice" onclick="buyFurniture('${e}',${c})">${e}<br><span class="mini">${n} · ${c}</span></button>`).join('')}
+function buyHouse(i){if(i<=state.houseTier){toast('🏠 Already owned.');return}const h=houses[i];if(state.coins<h.cost){toast(`You need ${h.cost-state.coins} more coins.`);return}state.coins-=h.cost;state.houseTier=i;save();render();toast('🏠 New home unlocked!')}
+function buyFurniture(icon,cost){if(state.ownedFurniture.includes(icon)){toast('🪑 You already own this piece.');return}if(state.coins<cost){toast(`You need ${cost-state.coins} more coins.`);return}state.coins-=cost;state.ownedFurniture.push(icon);save();render();toast('🪑 Added to your room!')}
+function setBg(c){state.bg=c;save();updateUI();toast('🎨 Background updated!')}
+function saveProfile(){state.nickname=(document.getElementById('nickname').value||'').trim().slice(0,18);state.ageBand=document.getElementById('ageBand').value;save();updateUI();toast('◎ Profile saved!')}
+function toggleLeaderboard(){state.leaderboard=!state.leaderboard;save();updateUI();toast(state.leaderboard?'◎ Leaderboard joined — nickname + age group only.':'◎ Leaderboard turned off.')}
+function renderLeaderboard(){const box=document.getElementById('leaderboard');if(!state.leaderboard){box.innerHTML='<p class="tiny">Turn it on above to preview your age-group ranking. Your real name is not needed.</p>';return}const names=[['Nova','8-10',420],['Sky','11-13',390],['Riley','14-17',360],['Pixel','14-17',310],['You',state.ageBand||'14-17',state.totalXP]];const rows=names.filter(x=>x[1]===state.ageBand||x[0]==='You').sort((a,b)=>b[2]-a[2]);box.innerHTML=rows.map((x,i)=>`<div class="leaderRow"><div class="rank">#${i+1}</div><div><b>${x[0]}</b><div class="mini">Age group ${x[1]}</div></div><b>${x[2]} XP</b></div>`).join('')+'<p class="tiny" style="margin-top:10px">Demo rankings only. For a real online leaderboard, Questly would need a secure server and moderation/privacy controls.</p>'}
+function renderRewards(){document.getElementById('rewardList').innerHTML=milestoneRewards.map(r=>{const ok=(r.at<100?state.completed>=r.at:state.totalXP>=r.at);return `<div class="rewardItem ${ok?'':'locked'}"><div class="rewardIcon">${r.icon}</div><div><b>${r.name}</b><div class="mini">${r.desc}</div></div><span class="pill">${ok?'Unlocked':'Goal '+r.at}</span></div>`}).join('')}
 function resetProgress(){
 if(!confirm('Reset Questly to Level 0 and 0 XP? Your custom quests will also be removed.'))return;
 state={...defaultState};save();render();closeSheets();toast('🌱 Fresh start: Level 0, 0 XP.')
