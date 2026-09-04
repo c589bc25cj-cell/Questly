@@ -1,269 +1,188 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Questly Prototype</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#15122b">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<title>Questly ✦</title>
 <style>
-  :root{
-    --bg:#0b1020; --panel:#151b31; --panel2:#1c2440; --text:#f7f8ff;
-    --muted:#aab2ca; --purple:#8b4dff; --green:#7be23b; --gold:#ffc83d;
-    --red:#ff5c7a; --blue:#50b9ff; --line:#2b3557;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:radial-gradient(circle at 50% 0,#26335f 0,#0b1020 45%);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:var(--text)}
-  button{font:inherit}
-  .app{width:min(430px,100%);min-height:100vh;margin:auto;background:linear-gradient(#11172b,#0b1020);position:relative;overflow:hidden}
-  .top{padding:22px 20px 12px;display:flex;justify-content:space-between;align-items:center}
-  .logo{font-weight:900;font-size:25px;letter-spacing:-1px}.logo span{color:var(--gold)}
-  .icon-btn{width:42px;height:42px;border:1px solid var(--line);border-radius:14px;background:var(--panel);color:white;cursor:pointer}
-  main{padding:0 16px 95px}
-  .screen{display:none}.screen.active{display:block}
-  .hero{border:1px solid #334066;border-radius:24px;padding:18px;background:linear-gradient(145deg,#214f88,#2b1758 70%);position:relative;overflow:hidden}
-  .hero:after{content:"";position:absolute;width:170px;height:170px;border-radius:50%;right:-70px;top:-80px;background:#ffffff12}
-  .hero-row{display:flex;gap:15px;align-items:center;position:relative;z-index:1}
-  .avatar{width:105px;height:120px;border-radius:22px;background:linear-gradient(#76c8ff,#254f91);display:grid;place-items:center;font-size:65px;border:2px solid #ffffff30}
-  .level{font-size:22px;font-weight:900}.sub{color:#dbe2ff;font-weight:600}
-  .bar{height:12px;background:#091020;border-radius:20px;overflow:hidden;border:1px solid #ffffff20;margin:9px 0 5px}
-  .fill{height:100%;background:linear-gradient(90deg,var(--gold),#ffe97a);width:68%;transition:width .35s}
-  .small{font-size:12px;color:var(--muted)}
-  .streak{margin-top:14px;border:1px solid var(--line);border-radius:18px;background:#0c1222aa;padding:12px;display:flex;justify-content:space-between;align-items:center}
-  h2{font-size:18px;margin:22px 2px 10px}
-  .quest{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:13px;margin:9px 0;display:flex;align-items:center;gap:12px}
-  .qicon{width:46px;height:46px;border-radius:14px;background:#2a214c;display:grid;place-items:center;font-size:24px}
-  .qmain{flex:1}.qname{font-weight:850}.qdesc{font-size:12px;color:var(--muted);margin-top:3px}.reward{font-size:12px;color:var(--gold);font-weight:800;margin-top:4px}
-  .primary,.secondary{border:0;border-radius:13px;padding:10px 14px;font-weight:900;cursor:pointer}
-  .primary{background:linear-gradient(135deg,#9d58ff,#6c2df0);color:white}.secondary{background:#27304c;color:#fff}
-  button:disabled{opacity:.45;cursor:not-allowed}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:17px;margin:12px 0}
-  .center{text-align:center}.timer{font-size:46px;font-weight:900;letter-spacing:2px;margin:15px 0}
-  .big-icon{font-size:72px;margin:15px}.complete{display:none}
-  .stats .stat{margin:14px 0}.stat-head{display:flex;justify-content:space-between;font-size:13px;font-weight:800}.statbar{height:9px;background:#090f1d;border-radius:20px;margin-top:6px;overflow:hidden}.statfill{height:100%;background:linear-gradient(90deg,var(--purple),#c58bff)}
-  .world{height:510px;border-radius:24px;background:linear-gradient(#3475a0,#173e55 45%,#102a2d);border:1px solid #41516c;position:relative;overflow:hidden;padding:18px}
-  .island{position:absolute;border-radius:50%;display:grid;place-items:center;text-align:center;font-weight:900;box-shadow:0 12px 30px #0007;border:2px solid #ffffff30}
-  .is1{width:135px;height:100px;left:25px;top:35px;background:#548d49}.is2{width:155px;height:110px;right:15px;top:145px;background:#2d7b55}.is3{width:145px;height:105px;left:25px;top:290px;background:#6886a0}.is4{width:150px;height:105px;right:10px;top:395px;background:#705b79}
-  .lock{font-size:12px;color:#dfe6ff;display:block;margin-top:4px}
-  .nav{position:fixed;bottom:0;width:min(430px,100%);height:78px;background:#0b1020ee;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);backdrop-filter:blur(12px);z-index:10}
-  .nav button{border:0;background:none;color:#7f89a5;font-weight:800;font-size:11px;cursor:pointer}.nav button.active{color:var(--green)}.nav span{display:block;font-size:22px;margin-bottom:3px}
-  .toast{position:fixed;left:50%;transform:translateX(-50%) translateY(120px);bottom:88px;background:#1e2a48;border:1px solid #4a5c88;border-radius:16px;padding:13px 18px;font-weight:850;box-shadow:0 12px 35px #0008;transition:.3s;z-index:20;width:max-content;max-width:90%}.toast.show{transform:translateX(-50%) translateY(0)}
-  .edit-note{font-size:11px;color:#7f89a5;text-align:center;margin:12px}
-  .row{display:flex;gap:10px}.row>*{flex:1}
-
-  .modal{display:none;position:fixed;inset:0;background:#050815cc;z-index:30;align-items:flex-end;justify-content:center;padding:16px}
-  .modal.show{display:flex}.sheet{width:min(430px,100%);background:#151b31;border:1px solid #394568;border-radius:24px;padding:20px;box-shadow:0 20px 60px #0009;max-height:88vh;overflow:auto}
-  .close{float:right;background:#27304c;border:0;color:#fff;border-radius:12px;width:38px;height:38px;cursor:pointer}
-  .choices{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:12px 0}.choice{background:#202945;border:2px solid transparent;border-radius:16px;padding:12px;text-align:center;cursor:pointer;color:white}.choice.selected{border-color:var(--green);background:#263a2a}.choice .emoji{font-size:34px;display:block;margin-bottom:5px}
-  .pet-card{display:flex;gap:14px;align-items:center;background:#202945;border:1px solid var(--line);border-radius:18px;padding:14px;margin:10px 0}.pet{font-size:48px}.pet-info{flex:1}.pet-info b{font-size:17px}.pet-info span{display:block;color:var(--muted);font-size:12px;margin-top:3px}
-  .photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.photo-box{border:1px dashed #566486;border-radius:16px;min-height:130px;display:grid;place-items:center;overflow:hidden;background:#0c1222;color:var(--muted);text-align:center;padding:10px}.photo-box img{width:100%;height:150px;object-fit:cover}.photo-label{font-weight:850;color:#fff;margin-bottom:5px}
-  .check{margin:10px 0;padding:10px;border-radius:13px;background:#102a1a;border:1px solid #315b3b;color:#c9ffd2;font-size:12px}
-  .float-xp{position:fixed;left:50%;top:42%;font-size:34px;font-weight:1000;color:var(--gold);z-index:40;pointer-events:none;animation:floatXP 1.2s ease-out forwards}
-  @keyframes floatXP{0%{opacity:0;transform:translate(-50%,30px) scale(.7)}20%{opacity:1}100%{opacity:0;transform:translate(-50%,-120px) scale(1.15)}}
-  .spark{animation:spark .55s ease-out}@keyframes spark{50%{transform:scale(1.08);filter:brightness(1.6)}}
-  .pet-cheer{display:flex;align-items:center;gap:10px;padding:10px 12px;margin:10px 0;background:#10182d;border-radius:16px;border:1px solid var(--line)}.pet-cheer .pet{font-size:34px}
-
-
-  .focus-card{background:linear-gradient(145deg,#17233d,#151b31);border:1px solid #35466b;border-radius:20px;padding:16px;margin:12px 0}
-  .focus-row{display:flex;align-items:center;gap:12px}.focus-row .emoji{font-size:32px}.focus-row>div:nth-child(2){flex:1}
-  .mini{font-size:11px;color:var(--muted)}.toggle{appearance:none;width:48px;height:28px;background:#313b59;border-radius:30px;position:relative;cursor:pointer}.toggle:checked{background:#5b9631}.toggle:after{content:"";position:absolute;width:22px;height:22px;top:3px;left:3px;border-radius:50%;background:white;transition:.2s}.toggle:checked:after{left:23px}
-  .step{display:flex;gap:10px;align-items:flex-start;margin:10px 0;padding:10px;background:#10182a;border-radius:14px}.step-num{width:25px;height:25px;border-radius:50%;background:#6c2df0;display:grid;place-items:center;font-weight:900;flex:none}
-  .quick{display:grid;grid-template-columns:1fr 1fr;gap:10px}.quick button{min-height:58px}
-  .calm{border:1px solid #3a4869;background:#11182b;border-radius:16px;padding:12px;color:#dbe2ff;font-size:12px}
-
+:root{--bg:#0d1020;--panel:#171a30;--panel2:#20254a;--line:#3a4070;--text:#f7f5ff;--muted:#abb0ce;--accent:#9188ff;--gold:#ffd76b;--good:#79d7a2}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.app{width:min(700px,100%);min-height:100vh;margin:auto;padding-bottom:92px;background:radial-gradient(circle at 50% -10%,#302968 0,#12162a 45%,var(--bg) 75%)}
+header{padding:calc(14px + env(safe-area-inset-top)) 16px 12px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5;background:#101329ee;backdrop-filter:blur(14px)}
+.brand{font-weight:950;font-size:25px}.headerBtns{display:flex;gap:8px}.round{width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:var(--panel);color:white}
+main{padding:12px 16px}.screen{display:none}.screen.active{display:block}
+.card{background:linear-gradient(160deg,var(--panel),#14172d);border:1px solid var(--line);border-radius:22px;padding:17px;margin-bottom:13px;box-shadow:0 10px 28px #0003}
+.profile{display:flex;gap:15px;align-items:center}.avatar{width:82px;height:82px;border-radius:22px;background:linear-gradient(145deg,#64b9ef,#5142a8);display:grid;place-items:center;font-size:47px;border:1px solid #8094da}
+.level{font-size:28px;font-weight:950}.sub{color:var(--muted);font-size:14px}.bar{height:12px;background:#080a15;border-radius:99px;overflow:hidden;border:1px solid #303553;margin:9px 0 7px}.fill{height:100%;width:0;background:linear-gradient(90deg,#ffd45b,#9a8cff);transition:width .35s}
+.streak{margin-top:12px;padding:11px 13px;border-radius:16px;background:#11142a;border:1px solid #313758;font-weight:850}
+.focus{display:flex;gap:12px;align-items:center}.brain{font-size:32px}.toggle{width:54px;height:31px;border:0;border-radius:99px;background:#3b426a;padding:3px}.toggle i{display:block;width:25px;height:25px;border-radius:50%;background:#fff;transition:.2s}.toggle.on{background:#6f66df}.toggle.on i{transform:translateX(23px)}
+.rule,.tiny{font-size:13px;line-height:1.45;color:#c5c8dc}.sectionTitle{font-size:21px;font-weight:950;margin:20px 2px 10px}
+.quest{width:100%;text-align:left;color:white;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px}.qicon{width:48px;height:48px;border-radius:15px;background:#282c4c;display:grid;place-items:center;font-size:24px;flex:none}.quest h3{margin:0 0 4px;font-size:16px}.quest p{margin:0;color:var(--muted);font-size:13px}.xp{margin-left:auto;color:var(--gold);font-weight:950;white-space:nowrap}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.choice{background:#1d213a;border:1px solid var(--line);color:#fff;border-radius:17px;padding:13px;text-align:center}.choice.selected{border-color:var(--accent);background:#2b2751;box-shadow:0 0 0 2px #9188ff33}
+.primary{background:var(--accent);color:#fff;border:0;border-radius:15px;padding:13px 17px;font-weight:900}.secondary{background:#252944;color:#fff;border:1px solid var(--line);border-radius:15px;padding:11px 15px;font-weight:800}.full{width:100%}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.stat{background:#11142a;border:1px solid var(--line);border-radius:16px;padding:12px;text-align:center}.stat b{font-size:21px;display:block}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(700px,100%);padding:8px 8px calc(8px + env(safe-area-inset-bottom));background:#111329f2;backdrop-filter:blur(16px);border-top:1px solid #303553;display:grid;grid-template-columns:repeat(4,1fr);z-index:10}.nav button{background:none;border:0;color:#858aa9;padding:4px}.nav button.active{color:#9d94ff}.nav span{display:block;font-size:22px}.nav small{font-size:11px;font-weight:850}
+.sheet{position:fixed;inset:auto 0 0;max-width:700px;margin:auto;background:var(--panel);border:1px solid var(--line);border-radius:25px 25px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom));max-height:90vh;overflow:auto;z-index:20;display:none}.sheet.show{display:block}.overlay{position:fixed;inset:0;background:#050611aa;backdrop-filter:blur(8px);display:none;z-index:19}.overlay.show{display:block}
+input,select{width:100%;background:#11142a;color:#fff;border:1px solid var(--line);border-radius:13px;padding:12px;margin:5px 0 10px}label{font-size:13px;color:var(--muted)}
+.badge{display:flex;gap:12px;align-items:center;background:#11142a;border:1px solid var(--line);border-radius:17px;padding:12px;margin-bottom:9px}.badgeIcon{font-size:30px;width:42px;text-align:center}.locked{opacity:.45}
+.toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:#f4f1ff;color:#15122b;padding:12px 16px;border-radius:15px;font-weight:850;display:none;z-index:30;box-shadow:0 8px 25px #0005;max-width:90%;text-align:center}
+.theme-ocean{--accent:#55b7e8;--panel:#152330;--panel2:#1b3448}.theme-forest{--accent:#69c27d;--panel:#14241b;--panel2:#203728}.theme-sunset{--accent:#ff9b6a;--panel:#2b1b24;--panel2:#452433}
 </style>
 </head>
 <body>
-<div class="app">
-  <header class="top"><div class="logo">Questly<span>✦</span></div><button class="icon-btn" onclick="showToast('Notifications coming soon!')">🔔</button></header>
+<div class="app" id="app">
+<header><div class="brand">Questly✦</div><div class="headerBtns"><button class="round" onclick="openSheet('settings')">⚙️</button><button class="round" onclick="showScreen('character')">🧙</button></div></header>
+<main>
+<section id="home" class="screen active">
+<div class="card"><div class="profile"><div class="avatar" id="homeAvatar">🧙</div><div style="flex:1"><div class="sub">Level <span id="level">0</span></div><div class="level">Adventurer</div><div class="bar"><div class="fill" id="xpFill"></div></div><div class="sub"><b id="xpText">0 / 100 XP</b></div></div></div><div class="streak">🔥 <span id="streak">0</span> day streak <span class="sub" style="float:right">Progress counts!</span></div></div>
+<div class="card focus"><div class="brain">🧠</div><div style="flex:1"><b>Focus Mode</b><div class="sub">One quest at a time. No pressure to do everything.</div></div><button class="toggle" id="focusToggle" onclick="toggleFocus()"><i></i></button></div>
+<div class="card rule">🌿 <b>Questly rule:</b> progress is progress. Missing a quest or taking a break doesn't reset your worth or your progress.</div>
+<div class="stats"><div class="stat">💰<b id="coins">0</b><span class="tiny">coins</span></div><div class="stat">⚔️<b id="done">0</b><span class="tiny">quests</span></div><div class="stat">🏆<b id="badgesCount">0</b><span class="tiny">badges</span></div></div>
+<div class="sectionTitle">⚔️ Today's Quests</div><div id="homeQuests"></div>
+</section>
 
-  <main>
-    <section id="home" class="screen active">
-      <div class="hero">
-        <div class="hero-row">
-          <div class="avatar" id="avatar">🧙</div>
-          <div style="flex:1">
-            <div class="level">Level <span id="level">7</span></div>
-            <div class="sub">Adventurer</div>
-            <div class="bar"><div class="fill" id="xpFill"></div></div>
-            <div class="small"><span id="xp">1240</span> / <span id="nextXp">1500</span> XP</div>
-          </div>
-        </div>
-        <div class="streak"><span>🔥 <b id="streak">7</b> day streak</span><span class="small">Keep going!</span></div>
-      </div>
-      <div class="pet-cheer" id="petCheer"></div>
-      <div class="focus-card">
-        <div class="focus-row"><div class="emoji">🧠</div><div><b>Focus Mode</b><div class="mini">One quest at a time. No pressure to do everything.</div></div><input class="toggle" id="focusToggle" type="checkbox" onchange="toggleFocus(this.checked)"></div>
-      </div>
-      <div class="calm">🌿 <b>Questly rule:</b> progress is progress. Missing a quest or taking a break doesn't reset your worth or your progress.</div>
-      <h2>⚔️ Today\'s Quests</h2>
-      <div id="questList"></div>
-      <div class="edit-note">Prototype data is saved in your browser.</div>
-    </section>
+<section id="quests" class="screen"><div class="sectionTitle">⚔️ Quests</div>
+<div class="card"><b>How much energy do you have?</b><div class="sub" style="margin-top:5px">Pick a size if you want one. You can always change your mind.</div><div class="grid" style="margin-top:12px"><button class="choice" onclick="setEnergy(this,'Tiny')">🌱<br><b>Tiny</b><br><span class="tiny">1–3 min</span></button><button class="choice" onclick="setEnergy(this,'Normal')">🌿<br><b>Normal</b><br><span class="tiny">5–15 min</span></button><button class="choice" onclick="setEnergy(this,'Big')">🌳<br><b>Big</b><br><span class="tiny">15+ min</span></button></div><div id="energyText" class="tiny" style="margin-top:10px">No choice is required.</div></div>
+<div id="questList"></div>
+<button class="secondary full" onclick="openSheet('customQuest')">➕ Create your own quest</button>
+</section>
 
-    <section id="quests" class="screen">
-      <div class="card center">
-        <div class="big-icon">⚔️</div><h1>Quest Board</h1>
-        <p class="small">Choose a quest and earn XP by completing it.</p>
-      </div>
-      <div id="questBoard"></div>
-    </section>
+<section id="world" class="screen"><div class="sectionTitle">🗺️ World</div>
+<div class="card center"><div style="font-size:58px">🏡🌿</div><h2>Cozy Meadow</h2><p class="sub">Your home base grows as you complete quests.</p><div class="bar"><div class="fill" id="meadowFill"></div></div><p class="tiny" id="meadowText">0 / 5 quests</p></div>
+<div class="card" id="forestCard"><div class="row"><div><b>🌲 Forest of Focus</b><div class="sub">Unlock at Level 3</div></div><span id="forestLock">🔒</span></div></div>
+<div class="card" id="summitCard"><div class="row"><div><b>🌌 Starry Summit</b><div class="sub">Unlock at Level 6</div></div><span id="summitLock">🔒</span></div></div>
+<div class="card" id="castleCard"><div class="row"><div><b>🏰 Sky Castle</b><div class="sub">Unlock at Level 10</div></div><span id="castleLock">🔒</span></div></div>
+</section>
 
-    <section id="questDetail" class="screen">
-      <div class="card center">
-        <div class="big-icon" id="detailIcon">📚</div>
-        <h1 id="detailName">Study Sprint</h1>
-        <p id="detailDesc">Study for 20 minutes.</p>
-        <div class="reward">⭐ +<span id="detailReward">100</span> XP</div>
-        <div id="tidyPhotos" style="display:none;text-align:left">
-          <div class="check">📸 Add before and after photos. They are stored only in this browser in this prototype. Photos can discourage cheating, but they cannot prove completion perfectly.</div>
-          <div class="photo-grid">
-            <div><div class="photo-label">BEFORE</div><label class="photo-box" for="beforePhoto" id="beforeBox">Tap to add photo<input id="beforePhoto" type="file" accept="image/*" capture="environment" style="display:none"></label></div>
-            <div><div class="photo-label">AFTER</div><label class="photo-box" for="afterPhoto" id="afterBox">Tap to add photo<input id="afterPhoto" type="file" accept="image/*" capture="environment" style="display:none"></label></div>
-          </div>
-        </div>
-        <div class="step"><div class="step-num">1</div><div><b>Start tiny</b><div class="mini">You only need to begin. Getting started counts.</div></div></div>
-        <div class="step"><div class="step-num">2</div><div><b>Focus for the timer</b><div class="mini">Pausing is okay. You can come back when ready.</div></div></div>
-        <div class="step"><div class="step-num">3</div><div><b>Claim your XP</b><div class="mini">No perfection required.</div></div></div>
-        <div class="timer" id="timer">20:00</div>
-        <div class="row"><button class="secondary" onclick="go('quests')">BACK</button><button class="primary" id="timerBtn" onclick="startTimer()">START QUEST</button></div>
-        <div class="complete" id="completeBox">
-          <h2>🎉 Quest Complete!</h2>
-          <button class="primary" onclick="completeQuest()">CLAIM XP</button>
-        </div>
-      </div>
-    </section>
+<section id="character" class="screen"><div class="sectionTitle">👤 Character</div>
+<div class="card center"><div class="bigEmoji" id="charAvatar" style="font-size:68px">🧙</div><h2 id="characterName">Adventurer</h2><p class="sub">Choose your companion and look.</p>
+<h3>🐾 Companions</h3><div class="grid"><button class="choice" onclick="choosePet(this,'🐶','Buddy')">🐶<br>Buddy</button><button class="choice" onclick="choosePet(this,'🐱','Miso')">🐱<br>Miso</button><button class="choice" onclick="choosePet(this,'🦊','Ember')">🦊<br>Ember</button><button class="choice" onclick="choosePet(this,'🐸','Sprout')">🐸<br>Sprout</button><button class="choice" onclick="choosePet(this,'🐼','Bean')">🐼<br>Bean</button><button class="choice" onclick="choosePet(this,'🐰','Cloud')">🐰<br>Cloud</button></div><div style="font-size:48px;margin:14px" id="petDisplay">🐶</div><p id="petCheer" class="sub">Buddy is cheering you on!</p></div>
+<div class="card"><b>🎨 Avatar style</b><div class="grid" style="margin-top:12px"><button class="choice" onclick="chooseAvatar(this,'🧙')">🧙<br>Wizard</button><button class="choice" onclick="chooseAvatar(this,'🧝')">🧝<br>Ranger</button><button class="choice" onclick="chooseAvatar(this,'🧑‍🚀')">🧑‍🚀<br>Explorer</button><button class="choice" onclick="chooseAvatar(this,'🧚')">🧚<br>Dreamer</button></div></div>
+<div class="card"><b>🪙 Outfit shop</b><p class="tiny">Spend coins on fun looks. Nothing affects your progress.</p><div class="grid"><button class="choice" onclick="buyOutfit('🎩',50)">🎩<br>Hat · 50</button><button class="choice" onclick="buyOutfit('🕶️',75)">🕶️<br>Shades · 75</button><button class="choice" onclick="buyOutfit('👑',150)">👑<br>Crown · 150</button><button class="choice" onclick="buyOutfit('🪽',200)">🪽<br>Wings · 200</button></div><div class="tiny" style="margin-top:10px">Equipped: <span id="outfit">None</span></div></div>
+</section>
 
-    <section id="character" class="screen">
-      <div class="card center"><div class="big-icon" id="charAvatar">🧙</div><h1>Your Character</h1><p class="sub">Level <span id="charLevel">7</span> Adventurer</p><button class="primary" onclick="openCharacter()">CUSTOMIZE CHARACTER</button></div>
-      <div class="card"><h3>🐾 Your Companion</h3><div id="activePet"></div><button class="secondary" onclick="openPets()">CHANGE COMPANION</button></div>
-      <div class="card stats" id="stats"></div>
-      <div class="card"><h3>🎒 Unlockables</h3><p class="small">Level 10: Enchanted Forest<br>Level 15: New outfit<br>Level 20: Crystal Mountains</p></div>
-      <div class="card">
-        <h3>🌿 Quest Preferences</h3>
-        <p class="small">Make Questly calmer and easier to use when you feel overwhelmed.</p>
-        <div class="focus-row" style="margin:12px 0"><div>🔕</div><div><b>No-stress streaks</b><div class="mini">Keep your XP even if you miss a day.</div></div><input class="toggle" type="checkbox" checked></div>
-        <div class="focus-row" style="margin:12px 0"><div>🎯</div><div><b>Small steps</b><div class="mini">Break bigger quests into tiny actions.</div></div><input class="toggle" type="checkbox" checked></div>
-        <div class="focus-row" style="margin:12px 0"><div>🧹</div><div><b>Flexible tidy proof</b><div class="mini">Before/after photos are optional for privacy; if enabled, both are needed to claim the bonus.</div></div><input class="toggle" type="checkbox" id="photoPref" onchange="showToast(this.checked?'📸 Photo proof enabled':'🔒 Photo proof optional')"></div>
-      </div>
-    </section>
-
-    <section id="world" class="screen">
-      <div class="card center"><h1>🗺️ Your World</h1><p class="small">Level up to unlock new regions.</p></div>
-      <div class="world">
-        <div class="island is1">🏡<br>Beginner Village<br><span class="lock">✓ Completed</span></div>
-        <div class="island is2">🌲<br>Enchanted Forest<br><span class="lock" id="forestLock">🔒 Level 10</span></div>
-        <div class="island is3">🏔️<br>Crystal Mountains<br><span class="lock">🔒 Level 20</span></div>
-        <div class="island is4">🏰<br>Royal Kingdom<br><span class="lock">🔒 Level 30</span></div>
-      </div>
-    </section>
-  
-    <div class="modal" id="characterModal" onclick="if(event.target===this)closeModal('characterModal')">
-      <div class="sheet"><button class="close" onclick="closeModal('characterModal')">✕</button><h2>🧙 Customize Your Hero</h2>
-        <p class="small">Pick your adventurer.</p><div class="choices" id="avatarChoices"></div>
-        <button class="primary" style="width:100%" onclick="saveAvatar()">SAVE CHARACTER</button>
-      </div>
-    </div>
-    <div class="modal" id="petModal" onclick="if(event.target===this)closeModal('petModal')">
-      <div class="sheet"><button class="close" onclick="closeModal('petModal')">✕</button><h2>🐾 Choose Your Companion</h2>
-        <p class="small">Your companion cheers you on while you complete quests.</p><div id="petChoices"></div>
-      </div>
-    </div>
+<section id="stats" class="screen"><div class="sectionTitle">📊 Progress</div>
+<div class="stats"><div class="stat">⭐<b id="totalXP">0</b><span class="tiny">total XP</span></div><div class="stat">💰<b id="statsCoins">0</b><span class="tiny">coins</span></div><div class="stat">🔥<b id="statsStreak">0</b><span class="tiny">streak</span></div></div>
+<div class="sectionTitle">🏆 Achievements</div><div id="badges"></div></section>
 </main>
+<nav class="nav"><button class="active" data-s="home" onclick="showScreen('home')"><span>🏠</span><small>Home</small></button><button data-s="quests" onclick="showScreen('quests')"><span>⚔️</span><small>Quests</small></button><button data-s="world" onclick="showScreen('world')"><span>🗺️</span><small>World</small></button><button data-s="character" onclick="showScreen('character')"><span>👤</span><small>Character</small></button></nav>
 
-  <nav class="nav">
-    <button id="navHome" class="active" onclick="go('home')"><span>🏠</span>Home</button>
-    <button id="navQuests" onclick="go('quests')"><span>⚔️</span>Quests</button>
-    <button id="navWorld" onclick="go('world')"><span>🗺️</span>World</button>
-    <button id="navCharacter" onclick="go('character')"><span>👤</span>Character</button>
-  </nav>
-</div>
+<div class="overlay" id="overlay" onclick="closeSheets()"></div>
+<div class="sheet" id="questSheet"><div class="row"><h2 id="detailTitle">Quest</h2><button class="round" onclick="closeSheets()">×</button></div><div id="detailIcon" style="font-size:62px;text-align:center">✨</div><p class="sub" id="detailDesc"></p><div class="card"><b>Pick a comfortable version</b><div class="grid" style="margin-top:10px"><button class="choice" onclick="toast('🌱 Tiny is enough.')">🌱 Tiny</button><button class="choice" onclick="toast('🌿 Normal is enough.')">🌿 Normal</button><button class="choice" onclick="toast('🌳 Big is optional.')">🌳 Big</button></div></div><button class="primary full" id="completeBtn" onclick="completeCurrent()">Complete quest</button></div>
+
+<div class="sheet" id="customQuest"><div class="row"><h2>➕ New quest</h2><button class="round" onclick="closeSheets()">×</button></div><label>Quest name</label><input id="customName" placeholder="e.g. Read for 10 minutes"><label>XP reward</label><select id="customXP"><option value="20">20 XP</option><option value="40">40 XP</option><option value="60">60 XP</option><option value="80">80 XP</option><option value="100">100 XP</option></select><button class="primary full" onclick="createCustomQuest()">Create quest</button></div>
+
+<div class="sheet" id="settings"><div class="row"><h2>⚙️ Settings</h2><button class="round" onclick="closeSheets()">×</button></div><label>Theme</label><select id="themeSelect" onchange="setTheme(this.value)"><option value="default">Midnight</option><option value="ocean">Ocean</option><option value="forest">Forest</option><option value="sunset">Sunset</option></select><label>Daily reminder time</label><input type="time" id="reminderTime" onchange="saveReminder(this.value)"><p class="tiny">Questly saves your preferred reminder time on this device. Your browser/iPad may still need notification permission for actual alerts.</p><button class="secondary full" onclick="resetProgress()">↺ Reset progress to Level 0</button></div>
+
+<div class="sheet" id="rewardSheet"><div class="row"><h2>🎉 Quest complete!</h2><button class="round" onclick="closeSheets()">×</button></div><div style="font-size:62px;text-align:center">✨</div><p class="center" id="rewardText"></p><button class="primary full" onclick="closeSheets()">Keep adventuring</button></div>
 <div class="toast" id="toast"></div>
-
+</div>
 <script>
-const defaultState={xp:1240,level:7,streak:7,stats:{Knowledge:6,Fitness:6,Creativity:5,Discipline:7,Social:4},avatar:'🧙',pet:'🐶'};
-let state=JSON.parse(localStorage.getItem('questlyState')||'null')||defaultState;
-const quests=[
- {id:1,icon:'📚',name:'Study Sprint',desc:'Study or focus on schoolwork for 20 minutes.',reward:100,stat:'Knowledge'},
- {id:2,icon:'💪',name:'Movement Quest',desc:'Complete some movement or exercise.',reward:100,stat:'Fitness'},
- {id:3,icon:'🧹',name:'Tidy Quest',desc:'Clean or organize one small area.',reward:50,stat:'Discipline',photos:true},
- {id:4,icon:'🎨',name:'Creative Quest',desc:'Spend 15 minutes creating something.',reward:75,stat:'Creativity'}
+const baseQuests=[
+{id:'tidy',icon:'🧹',title:'Tiny Tidy',desc:'Make one small area a little easier to live in.',xp:30},
+{id:'water',icon:'💧',title:'Refill Your Energy',desc:'Grab a drink, take a breath, and give yourself a tiny reset.',xp:20},
+{id:'reset',icon:'🌿',title:'Gentle Reset',desc:'Choose one tiny step that would make the next part of your day easier.',xp:25},
+{id:'focus',icon:'🎧',title:'Focus Sprint',desc:'Try one short, distraction-light activity, then stop or continue if you want.',xp:35}
 ];
-const pets=[['🐶','Pup','Your loyal everyday cheerleader.'],['🐱','Mochi','A curious companion for every quest.'],['🦊','Ember','A clever little adventure buddy.'],['🐼','Bamboo','Your calm and cozy supporter.'],['🐰','Pixel','A speedy friend who loves streaks.'],['🐉','Sprout','A tiny dragon with big encouragement.']];
-const avatars=['🧙','🧝','🧑‍🚀','🥷','🧑‍🎨','🧑‍🔬'];
-let selected=null, interval=null, seconds=1200, pendingAvatar=state.avatar;
+const badges=[
+{id:'first',icon:'🌟',name:'First Step',desc:'Complete your first quest.',ok:s=>s.completed>=1},
+{id:'five',icon:'🖐️',name:'Getting Going',desc:'Complete 5 quests.',ok:s=>s.completed>=5},
+{id:'level1',icon:'⬆️',name:'Level 1',desc:'Reach Level 1.',ok:s=>s.level>=1},
+{id:'level3',icon:'🌲',name:'Forest Friend',desc:'Reach Level 3.',ok:s=>s.level>=3},
+{id:'coins',icon:'💰',name:'Coin Collector',desc:'Earn 100 coins.',ok:s=>s.coins>=100},
+{id:'streak7',icon:'🔥',name:'Week of Progress',desc:'Reach a 7 day streak.',ok:s=>s.streak>=7}
+];
+const defaultState={totalXP:0,level:0,xp:0,streak:0,pet:'🐶',petName:'Buddy',avatar:'🧙',outfit:'None',coins:0,completed:0,focus:false,lastQuestDay:'',customQuests:[],ownedOutfits:[],theme:'default',reminderTime:''};
+let state={...defaultState,...(JSON.parse(localStorage.getItem('questlyV5')||'null')||{})};
+let current=null;
 
-function save(){localStorage.setItem('questlyState',JSON.stringify(state));}
-function xpNeeded(){return 1500+(state.level-7)*500}
+function save(){localStorage.setItem('questlyV5',JSON.stringify(state))}
+function allQuests(){return [...baseQuests,...state.customQuests]}
+function xpNeeded(){return 100}
+function questHTML(q){return `<button class="quest" onclick="openQuest('${q.id}')"><div class="qicon">${q.icon}</div><div style="min-width:0"><h3>${q.title}</h3><p>${q.desc}</p></div><div class="xp">+${q.xp}</div></button>`}
 function render(){
- document.getElementById('level').textContent=state.level; document.getElementById('charLevel').textContent=state.level;
- document.getElementById('xp').textContent=state.xp; document.getElementById('nextXp').textContent=xpNeeded();
- document.getElementById('xpFill').style.width=Math.min(100,state.xp/xpNeeded()*100)+'%';
- document.getElementById('streak').textContent=state.streak;
- document.getElementById('forestLock').textContent=state.level>=10?'✓ Unlocked':'🔒 Level 10';
- document.getElementById('avatar').textContent=state.avatar;document.getElementById('charAvatar').textContent=state.avatar;
- const pet=pets.find(x=>x[0]===state.pet)||pets[0];
- document.getElementById('petCheer').innerHTML=`<div class="pet">${pet[0]}</div><div><b>${pet[1]}</b> is cheering you on!<div class="small">${pet[2]}</div></div>`;
- document.getElementById('activePet').innerHTML=`<div class="pet-card"><div class="pet">${pet[0]}</div><div class="pet-info"><b>${pet[1]}</b><span>${pet[2]}</span></div></div>`;
- const makeQ=q=>`<div class="quest"><div class="qicon">${q.icon}</div><div class="qmain"><div class="qname">${q.name}</div><div class="qdesc">${q.desc}</div><div class="reward">⭐ +${q.reward} XP${q.photos?' · 📸 optional proof':''}</div></div><button class="primary" onclick="openQuest(${q.id})">START</button></div>`;
- document.getElementById('questList').innerHTML=quests.map(makeQ).join('');
- document.getElementById('questBoard').innerHTML=quests.map(makeQ).join('');
- document.getElementById('stats').innerHTML=Object.entries(state.stats).map(([n,v])=>`<div class="stat"><div class="stat-head"><span>${n}</span><span>Lv. ${v}</span></div><div class="statbar"><div class="statfill" style="width:${Math.min(100,v*10)}%"></div></div></div>`).join('');
+document.getElementById('homeQuests').innerHTML=allQuests().slice(0,3).map(questHTML).join('');
+document.getElementById('questList').innerHTML=allQuests().map(questHTML).join('');
+updateUI();renderBadges()
 }
-function go(id){
- document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active');
- ['Home','Quests','World','Character'].forEach(n=>{let b=document.getElementById('nav'+n);if(b)b.classList.remove('active')});
- if(['home','quests','world','character'].includes(id)) document.getElementById('nav'+id[0].toUpperCase()+id.slice(1)).classList.add('active');
+function updateUI(){
+const need=xpNeeded();
+document.getElementById('level').textContent=state.level;
+document.getElementById('xpText').textContent=`${state.xp} / ${need} XP`;
+document.getElementById('xpFill').style.width=Math.min(100,state.xp/need*100)+'%';
+document.getElementById('streak').textContent=state.streak;
+document.getElementById('coins').textContent=state.coins;
+document.getElementById('done').textContent=state.completed;
+document.getElementById('badgesCount').textContent=badges.filter(b=>b.ok(state)).length;
+document.getElementById('totalXP').textContent=state.totalXP;
+document.getElementById('statsCoins').textContent=state.coins;
+document.getElementById('statsStreak').textContent=state.streak;
+document.getElementById('homeAvatar').textContent=state.avatar+((state.outfit&&state.outfit!=='None')?' '+state.outfit:'');
+document.getElementById('charAvatar').textContent=state.avatar;
+document.getElementById('petDisplay').textContent=state.pet;
+document.getElementById('petCheer').textContent=`${state.petName} is cheering you on!`;
+document.getElementById('outfit').textContent=state.outfit;
+document.getElementById('focusToggle').classList.toggle('on',state.focus);
+document.getElementById('meadowFill').style.width=Math.min(100,state.completed/5*100)+'%';
+document.getElementById('meadowText').textContent=`${state.completed%6} / 5 quests toward the next meadow milestone`;
+[['forest',3],['summit',6],['castle',10]].forEach(([name,lvl])=>{const unlocked=state.level>=lvl;document.getElementById(name+'Lock').textContent=unlocked?'✨':'🔒';document.getElementById(name+'Card').classList.toggle('locked',!unlocked)});
+document.getElementById('themeSelect').value=state.theme;document.getElementById('reminderTime').value=state.reminderTime||'';
+document.getElementById('app').className='app'+(state.theme==='default'?'':' theme-'+state.theme)
+}
+function renderBadges(){
+document.getElementById('badges').innerHTML=badges.map(b=>`<div class="badge ${b.ok(state)?'':'locked'}"><div class="badgeIcon">${b.icon}</div><div><b>${b.name}</b><div class="tiny">${b.desc}</div></div><div style="margin-left:auto">${b.ok(state)?'✓':'🔒'}</div></div>`).join('')
+}
+function showScreen(id){
+document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));
+document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.s===id));
+if(id==='stats')renderBadges()
 }
 function openQuest(id){
- selected=quests.find(q=>q.id===id);
- // Shorter, optional focus sessions make starting easier.
- seconds=selected.name==='Study Sprint'?1200:selected.name==='Creative Quest'?900:300;
- document.getElementById('detailIcon').textContent=selected.icon;
- document.getElementById('detailName').textContent=selected.name;
- document.getElementById('detailDesc').textContent=selected.desc;
- document.getElementById('detailReward').textContent=selected.reward;
- document.getElementById('tidyPhotos').style.display=selected.photos?'block':'none';
- document.getElementById('completeBox').style.display='none';
- document.getElementById('timerBtn').disabled=false;
- document.getElementById('timerBtn').textContent='START QUEST';
- updateTimer(); go('questDetail');
+current=allQuests().find(q=>q.id===id);if(!current)return;
+document.getElementById('detailIcon').textContent=current.icon;
+document.getElementById('detailTitle').textContent=current.title;
+document.getElementById('detailDesc').textContent=current.desc;
+document.getElementById('completeBtn').textContent=`Complete quest +${current.xp} XP`;
+openSheet('questSheet')
 }
-function updateTimer(){let m=Math.floor(seconds/60).toString().padStart(2,'0'),s=(seconds%60).toString().padStart(2,'0');document.getElementById('timer').textContent=m+':'+s}
-function startTimer(){
- if(interval)return;
- document.getElementById('timerBtn').textContent='QUEST IN PROGRESS…';
- // Prototype convenience: the timer runs normally. For testing, you can change the seconds above.
- interval=setInterval(()=>{seconds--;updateTimer();if(seconds<=0){clearInterval(interval);interval=null;document.getElementById('timerBtn').disabled=true;document.getElementById('completeBox').style.display='block';showToast('Quest finished! Claim your XP.') }},1000);
+function completeCurrent(){
+if(!current)return;
+const oldLevel=state.level;
+state.totalXP+=current.xp;state.xp+=current.xp;state.coins+=Math.max(1,Math.floor(current.xp/10));state.completed++;
+while(state.xp>=xpNeeded()){state.xp-=xpNeeded();state.level++}
+const today=new Date().toISOString().slice(0,10);
+if(state.lastQuestDay!==today){state.streak++;state.lastQuestDay=today}
+save();render();
+let msg=`+${current.xp} XP · +${Math.max(1,Math.floor(current.xp/10))} coins.`;
+if(state.level>oldLevel)msg+=` 🎊 You reached Level ${state.level}!`;
+document.getElementById('rewardText').textContent=msg+' 🌟 One step is enough.';
+closeSheets();setTimeout(()=>openSheet('rewardSheet'),120)
 }
-function completeQuest(){
- if(!selected)return;
- if(selected.photos && document.getElementById('photoPref').checked){
-   const before=document.getElementById('beforePhoto').files[0], after=document.getElementById('afterPhoto').files[0];
-   if(!before||!after){showToast('📸 Add both photos, or turn photo proof off in Character.');return;}
- }
- state.xp+=selected.reward;
- state.stats[selected.stat]=Math.min(99,state.stats[selected.stat]+1);
- let leveled=false;
- while(state.xp>=xpNeeded()){state.xp-=xpNeeded();state.level++;leveled=true}
- save();render();xpAnimation('+'+selected.reward+' XP');
- showToast(leveled?'🎉 LEVEL UP! You reached Level '+state.level:'⭐ +'+selected.reward+' XP earned!');
- go('home');
+function toggleFocus(){state.focus=!state.focus;save();updateUI();toast(state.focus?'🧠 Focus Mode on — one thing at a time.':'🧠 Focus Mode off — choose your pace.')}
+function setEnergy(el,name){document.querySelectorAll('#quests .choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');document.getElementById('energyText').textContent=`${name} quests are a good fit right now.`}
+function choosePet(el,p,name){el.parentElement.querySelectorAll('.choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');state.pet=p;state.petName=name;save();updateUI();toast('🐾 Companion chosen!')}
+function chooseAvatar(el,a){el.parentElement.querySelectorAll('.choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');state.avatar=a;save();updateUI();toast('✨ Avatar updated!')}
+function buyOutfit(o,cost){if(state.ownedOutfits.includes(o)){state.outfit=o;save();updateUI();toast('✨ Outfit equipped!');return}if(state.coins<cost){toast(`You need ${cost-state.coins} more coins.`);return}state.coins-=cost;state.ownedOutfits.push(o);state.outfit=o;save();updateUI();toast('🪄 New look unlocked!')}
+function createCustomQuest(){
+const name=document.getElementById('customName').value.trim();const xp=Number(document.getElementById('customXP').value);
+if(!name){toast('Give your quest a name first.');return}
+state.customQuests.push({id:'custom'+Date.now(),icon:'⭐',title:name,desc:'A quest you created for yourself.',xp});
+save();render();document.getElementById('customName').value='';closeSheets();toast('⭐ Your quest was created!')
 }
-function xpAnimation(text){let e=document.createElement('div');e.className='float-xp';e.textContent=text;document.body.appendChild(e);setTimeout(()=>e.remove(),1300);document.getElementById('xpFill').classList.add('spark');setTimeout(()=>document.getElementById('xpFill').classList.remove('spark'),600)}
-function openCharacter(){pendingAvatar=state.avatar;document.getElementById('avatarChoices').innerHTML=avatars.map(a=>`<button class="choice ${a===pendingAvatar?'selected':''}" onclick="pickAvatar('${a}',this)"><span class="emoji">${a}</span>Hero</button>`).join('');document.getElementById('characterModal').classList.add('show')}
-function pickAvatar(a,el){pendingAvatar=a;document.querySelectorAll('#avatarChoices .choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected')}
-function saveAvatar(){state.avatar=pendingAvatar;save();render();closeModal('characterModal');showToast('🧙 Character updated!')}
-function openPets(){document.getElementById('petChoices').innerHTML=pets.map(x=>`<button class="pet-card" style="width:100%;text-align:left;color:white;cursor:pointer;border:${x[0]===state.pet?'2px solid var(--green)':'1px solid var(--line)'}" onclick="choosePet('${x[0]}')"><div class="pet">${x[0]}</div><div class="pet-info"><b>${x[1]}</b><span>${x[2]}</span></div></button>`).join('');document.getElementById('petModal').classList.add('show')}
-function choosePet(p){state.pet=p;save();render();closeModal('petModal');showToast('🐾 Your companion is ready!')}
-function closeModal(id){document.getElementById(id).classList.remove('show')}
-function toggleFocus(on){
-  document.body.dataset.focus=on?'on':'off';
-  showToast(on?'🧠 Focus Mode: one quest at a time':'🎮 Focus Mode off');
+function setTheme(t){state.theme=t;save();updateUI();toast('🎨 Theme changed!')}
+function saveReminder(v){state.reminderTime=v;save();toast(v?`🔔 Reminder preference saved for ${v}.`:'🔕 Reminder cleared.')}
+function resetProgress(){
+if(!confirm('Reset Questly to Level 0 and 0 XP? Your custom quests will also be removed.'))return;
+state={...defaultState};save();render();closeSheets();toast('🌱 Fresh start: Level 0, 0 XP.')
 }
-function showToast(msg){let t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove('show'),2600)}
-function previewPhoto(input,boxId){const file=input.files[0];if(!file)return;const url=URL.createObjectURL(file);document.getElementById(boxId).innerHTML=`<img src="${url}" alt="Quest photo">`}
-document.getElementById('beforePhoto').addEventListener('change',e=>previewPhoto(e.target,'beforeBox'));
-document.getElementById('afterPhoto').addEventListener('change',e=>previewPhoto(e.target,'afterBox'));
+function openSheet(id){closeSheets();document.getElementById('overlay').classList.add('show');document.getElementById(id).classList.add('show')}
+function closeSheets(){document.getElementById('overlay').classList.remove('show');document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('show'))}
+function toast(t){const x=document.getElementById('toast');x.textContent=t;x.style.display='block';clearTimeout(window.tt);window.tt=setTimeout(()=>x.style.display='none',2400)}
 render();
 </script>
-</body>
-</html>
+<script>if('serviceWorker'in navigator){navigator.serviceWorker.register('./service-worker.js').catch(()=>{});}</script>
+</body></html>
