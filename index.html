@@ -114,7 +114,7 @@ box-shadow:0 8px 25px #0006;max-width:90%;text-align:center}
     <div class="coverContent">
       <h1>Questly</h1>
       <p>Your quests. Your story. Your world.</p>
-      <button class="startBtn" onclick="enterQuestly()">Start Questing</button>
+      <button id="startQuestingBtn" class="startBtn" type="button">Start Questing</button>
     </div>
   </div>
 </div>
@@ -263,7 +263,7 @@ function toggleFocus(){state.focus=!state.focus;save();updateUI();toast(state.fo
 function setEnergy(el,name){document.querySelectorAll('#quests .choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');document.getElementById('energyText').textContent=`${name} quests are a good fit right now.`}
 function choosePet(el,p,name){el.parentElement.querySelectorAll('.choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');state.pet=p;state.petName=name;save();updateUI();toast('🐾 Companion chosen!')}
 function chooseAvatar(el,a){el.parentElement.querySelectorAll('.choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');state.avatar=a;save();updateUI();toast('✨ Avatar updated!')}
-function buyOutfit(id){const o=outfits.find(x=>x[0]===id);if(!o)return;if((state.ownedOutfitIds||[]).includes(id)){state.outfit=id;save();updateUI();toast('✓ Outfit equipped!');return}if(state.coins<o[3]){toast(`You need ${o[3]-state.coins} more coins.`);return}state.coins-=o[3];state.ownedOutfitIds=(state.ownedOutfitIds||[]).concat(id);state.outfit=id;save();updateUI();toast(`${o[1]} ${o[2]} unlocked!`)}if(state.coins<cost){toast(`You need ${cost-state.coins} more coins.`);return}state.coins-=cost;state.ownedOutfits.push(o);state.outfit=o;save();updateUI();toast('🪄 New look unlocked!')}
+function buyOutfit(id){const o=outfits.find(x=>x[0]===id);if(!o)return;if((state.ownedOutfitIds||[]).includes(id)){state.outfit=id;save();updateUI();toast('✓ Outfit equipped!');return}if(state.coins<o[3]){toast(`You need ${o[3]-state.coins} more coins.`);return}state.coins-=o[3];state.ownedOutfitIds=(state.ownedOutfitIds||[]).concat(id);state.outfit=id;save();updateUI();toast(`${o[1]} ${o[2]} unlocked!`)}
 function createCustomQuest(){
 const name=document.getElementById('customName').value.trim();const xp=Number(document.getElementById('customXP').value);
 if(!name){toast('Give your quest a name first.');return}
@@ -294,7 +294,8 @@ function openSheet(id){closeSheets();document.getElementById('overlay').classLis
 function closeSheets(){document.getElementById('overlay').classList.remove('show');document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('show'))}
 function toast(t){const x=document.getElementById('toast');x.textContent=t;x.style.display='block';clearTimeout(window.tt);window.tt=setTimeout(()=>x.style.display='none',2400)}
 render();
-function enterQuestly(){const c=document.getElementById('coverScreen');c.classList.add('hidden');setTimeout(()=>c.remove(),400)}
+function enterQuestly(){const c=document.getElementById('coverScreen');if(!c)return;c.classList.add('hidden');setTimeout(()=>c.remove(),400)}
+document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementById('startQuestingBtn');if(b)b.addEventListener('click',enterQuestly);});
 
 </script>
 <script>if('serviceWorker'in navigator){navigator.serviceWorker.register('./service-worker.js').catch(()=>{});}</script>
