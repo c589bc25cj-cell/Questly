@@ -119,16 +119,21 @@ box-shadow:0 8px 25px #0006;max-width:90%;text-align:center}
 .coverCard{width:min(520px,100%);max-height:92vh;overflow:auto;border:1px solid #35536d;border-radius:28px;background:#0c1b29;box-shadow:0 24px 80px rgba(0,0,0,.45);padding:14px}
 .coverArt{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:20px}
 .coverContent{text-align:center;padding:16px 10px 8px}.coverContent h1{margin:0;font-size:30px;letter-spacing:.4px}.coverContent p{margin:7px 0 14px;color:#a9bbca}.startBtn{width:100%;border:0;border-radius:14px;padding:14px 18px;background:#78bde8;color:#071522;font-weight:800;font-size:16px;cursor:pointer}.startBtn:active{transform:scale(.99)}
+body:has(#app:target) #coverScreen{opacity:0;pointer-events:none}
+body:has(#app:target) #app{display:block}
+#startQuestlyToggle:checked ~ #coverScreen{display:none !important}
+#startQuestlyToggle:checked ~ #app{display:block !important}
 </style>
 </head>
 <body>
+<input id="startQuestlyToggle" type="checkbox" hidden>
 <div id="coverScreen" role="dialog" aria-label="Questly welcome screen">
   <div class="coverCard">
     <img class="coverArt" src="./questly-cover.jpg" alt="Questly cover art with two adventurers looking toward a glowing horizon">
     <div class="coverContent">
       <h1>Questly</h1>
       <p>Your quests. Your story. Your world.</p>
-      <button id="startQuestingBtn" class="startBtn" type="button">Start Questing</button>
+      <label id="startQuestingBtn" class="startBtn" for="startQuestlyToggle">Start Questing</label>
     </div>
   </div>
 </div>
@@ -212,7 +217,7 @@ const outfits=[
 ['hoodie','🧥','Oversized Hoodie',60,'Top'],['denim','👖','Denim Fit',80,'Bottom'],['tee','👕','Everyday Tee',40,'Top'],['jacket','🧥','Street Jacket',140,'Outerwear'],['sweater','🧶','Knit Sweater',120,'Top'],['cargo','👖','Cargo Pants',110,'Bottom'],['sneakers','👟','Sneakers',90,'Shoes'],['boots','🥾','Boots',150,'Shoes'],['cap','🧢','Cap',50,'Accessory'],['beanie','🧢','Beanie',55,'Accessory'],['headphones','🎧','Headphones',100,'Accessory'],['backpack','🎒','Backpack',125,'Accessory'],['glasses','👓','Glasses',70,'Accessory'],['sports','🏀','Sports Set',130,'Set'],['pajamas','😴','Comfy Set',75,'Set']
 ];
 const defaultState={totalXP:0,level:0,xp:0,streak:0,pet:'🐶',petName:'Buddy',avatar:'🧑‍🎓',outfit:'None',coins:0,completed:0,focus:false,lastQuestDay:'',customQuests:[],ownedOutfits:[],theme:'default',reminderTime:'',nickname:'',ageBand:'14-17',leaderboard:false,bg:'#0b0c12',houseTier:0,ownedFurniture:[],ownedOutfitIds:[],outfitParts:[],roomPlacements:{},roomRotations:{},placedFurniture:[],selectedFurnitureId:null};
-let state={...defaultState,...(JSON.parse(localStorage.getItem('questlyV11')||localStorage.getItem('questlyV10')||localStorage.getItem('questlyV8')||'null')||{})};
+let savedState={};try{savedState=JSON.parse(localStorage.getItem('questlyV11')||localStorage.getItem('questlyV10')||localStorage.getItem('questlyV8')||'null')||{}}catch(e){savedState={}};let state={...defaultState,...savedState};
 let current=null;
 let questTimer=null,questRemaining=0,questTotal=0,questSize=1.5,questStarted=false,questPaused=false,questStepDone=0;
 
@@ -241,7 +246,7 @@ document.getElementById('homeAvatar').textContent=state.avatar+((state.outfit&&s
 document.getElementById('charAvatar').textContent=state.avatar;
 document.getElementById('petDisplay').textContent=state.pet;
 document.getElementById('petCheer').textContent=`${state.petName} is cheering you on!`;
-const oo=outfits.find(x=>x[0]===state.outfit);document.getElementById('outfit').textContent=oo?oo[2]:'None';document.getElementById('roomOutfit').textContent=oo?oo[1]:'•';renderOutfitShop();
+const oo=outfits.find(x=>x[0]===state.outfit);const outfitEl=document.getElementById('outfit');if(outfitEl)outfitEl.textContent=oo?oo[2]:'None';const roomOutfitEl=document.getElementById('roomOutfit');if(roomOutfitEl)roomOutfitEl.textContent=oo?oo[1]:'•';renderOutfitShop();
 document.getElementById('focusToggle').classList.toggle('on',state.focus);
 document.getElementById('meadowFill').style.width=Math.min(100,state.completed/5*100)+'%';
 document.getElementById('meadowText').textContent=`${Math.min(5,state.completed%6)} / 5 quests toward the next meadow milestone`;
@@ -273,7 +278,7 @@ function setQuestSize(el,mult){if(questStarted){toast('⏱️ Pause or finish th
 function startQuestTimer(){if(!current)return;if(!questStarted){questStarted=true;questPaused=false;document.getElementById('timerStatus').textContent='Timer running · one step at a time';document.getElementById('timerStartBtn').textContent='▶ Resume';}else if(questPaused){questPaused=false;document.getElementById('timerStatus').textContent='Timer running · one step at a time'}else{return}clearInterval(questTimer);questTimer=setInterval(()=>{if(questRemaining>0&&!questPaused){questRemaining--;document.getElementById('timerDisplay').textContent=formatTime(questRemaining);document.getElementById('timerFill').style.width=((questTotal-questRemaining)/questTotal*100)+'%';if(questRemaining<=0){clearInterval(questTimer);questTimer=null;questPaused=true;document.getElementById('timerStatus').textContent='⏰ Timer finished — finish your last step when ready';document.getElementById('timerStartBtn').textContent='▶ Start again';updateCompleteButton()}}},1000);updateCompleteButton()}
 function pauseQuestTimer(){if(!questStarted||questRemaining<=0)return;questPaused=true;clearInterval(questTimer);questTimer=null;document.getElementById('timerStatus').textContent='⏸️ Paused · come back whenever you want';document.getElementById('timerStartBtn').textContent='▶ Resume'}
 function toggleQuestStep(i,checked){const el=document.getElementById('step'+i);if(el)el.classList.toggle('done',checked);questStepDone=[...document.querySelectorAll('#questSteps input[type=checkbox]')].filter(x=>x.checked).length;updateCompleteButton()}
-function updateCompleteButton(){const btn=document.getElementById('completeBtn');if(!btn||!current)return;const totalSteps=(current.steps||['']).length;const timerReady=questStarted&&(questRemaining<=0||questStepDone>=totalSteps);const stepsReady=questStepDone>=totalSteps;btn.disabled=!(timerReady&&stepsReady);btn.textContent=btn.disabled?'Finish the timer and steps':`Complete quest +${current.xp} XP`}
+function updateCompleteButton(){const btn=document.getElementById('completeBtn');if(!btn||!current)return;const totalSteps=(current.steps||['']).length;const timerReady=questStarted&&questRemaining<=0;const stepsReady=questStepDone>=totalSteps;btn.disabled=!(timerReady&&stepsReady);btn.textContent=btn.disabled?'Finish the timer and steps':`Complete quest +${current.xp} XP`}
 function completeCurrent(){
 if(!current||document.getElementById('completeBtn').disabled)return;
 clearInterval(questTimer);questTimer=null;
@@ -315,9 +320,8 @@ state={...defaultState};save();render();closeSheets();toast('🌱 Fresh start: L
 function openSheet(id){closeSheets();document.getElementById('overlay').classList.add('show');document.getElementById(id).classList.add('show')}
 function closeSheets(){document.getElementById('overlay').classList.remove('show');document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('show'))}
 function toast(t){const x=document.getElementById('toast');x.textContent=t;x.style.display='block';clearTimeout(window.tt);window.tt=setTimeout(()=>x.style.display='none',2400)}
-render();
 function enterQuestly(){const c=document.getElementById('coverScreen');if(!c)return;c.classList.add('hidden');setTimeout(()=>c.remove(),400)}
-document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementById('startQuestingBtn');if(b)b.addEventListener('click',enterQuestly);});
+try{render();}catch(e){console.error('Questly startup error:',e);document.documentElement.dataset.questlyError='1';}
 
 </script>
 <script>if('serviceWorker'in navigator){navigator.serviceWorker.register('./service-worker.js').catch(()=>{});}</script>
