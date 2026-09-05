@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#15122b">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-192.png">
-<title>Questly — v13</title>
+<title>Questly — Questly World</title>
 <style>
 :root{
   --bg:#0b0c12;--panel:#14161f;--panel2:#1b1e2a;--line:#303442;
@@ -183,6 +183,131 @@ body:has(#app:target) #app{display:block}
 .builderChoices button.selected{border-color:#9f95ed;box-shadow:0 0 0 2px #9f95ed33;background:#f4f1ff}
 .questSeason{display:inline-block;margin-top:6px;padding:3px 7px;border-radius:99px;background:#eef5ff;color:#64728b;font-size:10px;font-weight:800}
 
+
+/* v14: cheerful dollhouse + phone/tablet responsive layout */
+:root{
+  --bg:#f8f3ff;--panel:#ffffff;--panel2:#fff9f2;--line:#e5dff0;
+  --text:#3d3452;--muted:#756d82;--accent:#8b5de8;--gold:#e8a52d;--good:#5fc28b
+}
+body{background:linear-gradient(180deg,#f6efff 0,#fffaf5 58%,#eef8f1 100%);color:var(--text)}
+.app{width:min(100%,1100px);background:transparent}
+header{background:rgba(255,255,255,.88);border-bottom:1px solid #e8e0f0}
+.brand{color:#4b356d}
+.round{background:#fff;color:#5d4a78;border-color:#e3d9ef}
+main{padding:16px 18px}
+.card{background:rgba(255,255,255,.92);border-color:#e6dff0;box-shadow:0 8px 22px rgba(88,66,115,.08)}
+.sub,.tiny{color:var(--muted)}
+.nav{background:rgba(255,255,255,.95);border-top:1px solid #e5dff0}
+.nav button{color:#82758f}.nav button.active{color:#7b4dd1}
+.primary{background:linear-gradient(135deg,#9b6af0,#7e55d5);border-color:#8d63df}
+.secondary,.choice{background:#fff;border-color:#e5dff0;color:#4d425d}
+.quest{background:#fff;border-color:#e8e0f0}
+.quest:hover,.choice:hover{background:#faf6ff}
+.sectionTitle{color:#4b356d}
+
+/* Dollhouse floor plan: warm, toy-like rather than technical */
+.houseBlueprint{
+  background:linear-gradient(145deg,#fff9ed,#f3ecff)!important;
+  border:0!important;border-radius:28px!important;padding:14px!important;
+  box-shadow:0 10px 28px rgba(82,63,110,.12)!important;
+}
+.roofShape{height:38px!important;margin:-14px -14px 10px!important;border-radius:28px 28px 10px 10px!important;background:linear-gradient(90deg,#d9a2c8,#b89ae9,#91cfe1)!important}
+.floorPlan{
+  height:500px!important;border:10px solid #f4e8d9!important;border-radius:26px!important;
+  background:#8fc98c!important;box-shadow:inset 0 0 0 4px #d6ad78,0 7px 16px rgba(76,62,77,.12)!important;
+  background-image:radial-gradient(circle at 15% 20%,#ffffff66 0 2px,transparent 3px),radial-gradient(circle at 75% 70%,#ffffff55 0 2px,transparent 3px)!important;
+}
+.planRoom{
+  border:5px solid #fff!important;border-radius:14px!important;
+  box-shadow:0 3px 0 #cdbb9e, inset 0 0 0 2px #f3dfc1!important;
+}
+.r-bed{background:#f6dff0}.r-study{background:#e8ddfb}.r-bath{background:#dff2f7}
+.r-living{background:#fff0cf}.r-stairs{background:#e7f0d8}.r-kitchen{background:#ffe4cf}.r-storage{background:#e5ddf4}
+.planRoom:after{border:0!important}
+.planRoom span{color:#5b4b65;background:#ffffffd9;box-shadow:0 2px 5px #0001}
+.planDoor{border:3px solid #a66b3d!important;border-radius:6px!important;box-shadow:0 2px 0 #fff}
+.planWindow{background:#9cdef1!important;border-color:#fff!important;box-shadow:0 0 0 2px #63aabd!important}
+.fixture{filter:drop-shadow(0 3px 1px rgba(54,43,63,.18))!important}
+.blueprintLegend .legendChip{background:#fffaf3;border-color:#eadcc8}
+.blueprintHint{color:#675873}
+.houseDetails{grid-template-columns:repeat(3,1fr)!important}
+.houseDetail{background:#fff;border-color:#eadff1!important}
+
+/* Character creator closer to the reference: clean preview + choices */
+.avatarBuilder{grid-template-columns:minmax(210px,280px) 1fr!important}
+.avatarPreview{background:linear-gradient(145deg,#f0e7ff,#fff1e6)!important;border-color:#e3d7ef!important}
+.builderGroup{background:#fff9f1!important;border-color:#eee2d4!important}
+.builderChoices button{background:#fff;border-color:#e3d9ed}
+.builderChoices button.selected{border-color:#8d63df;background:#f5efff;box-shadow:0 0 0 2px #8d63df33}
+
+/* Tablet: use the extra width without making controls tiny */
+@media (min-width:700px){
+  main{padding:20px 28px}
+  .app{min-height:100vh}
+  #home .profile{padding:4px}
+  .grid{grid-template-columns:repeat(4,1fr)}
+  .houseGrid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* Phone: stack everything, keep tap targets comfortable */
+@media (max-width:699px){
+  main{padding:12px 12px 100px}
+  header{padding-left:14px;padding-right:14px}
+  .brand{font-size:21px}
+  .houseDetails{grid-template-columns:1fr!important}
+  .floorPlan{height:390px!important}
+  .avatarBuilder{grid-template-columns:1fr!important}
+  .avatarPreview{min-height:155px}
+  .nav{left:0;right:0}
+  .nav button{min-height:58px}
+  .grid{grid-template-columns:1fr 1fr}
+  .row{gap:9px}
+  .quest{padding:12px}
+}
+@media (max-width:380px){
+  .grid{grid-template-columns:1fr}
+  .floorPlan{height:360px!important}
+  .brand{font-size:19px}
+}
+
+
+/* v15 Questly World */
+.worldMap{
+  position:relative;min-height:520px;border-radius:28px;overflow:hidden;
+  background:
+    radial-gradient(circle at 12% 20%,#fff8 0 3px,transparent 4px),
+    radial-gradient(circle at 78% 15%,#fff7 0 4px,transparent 5px),
+    linear-gradient(180deg,#bde7ff 0 24%,#9fd795 24% 100%);
+  border:7px solid #fff;box-shadow:0 10px 26px rgba(74,64,96,.13);
+}
+.mapWater{position:absolute;left:-4%;right:-4%;top:17%;height:18%;background:#8bd3ed;border-top:5px solid #fff9;border-bottom:5px solid #6db6d1;transform:rotate(-2deg)}
+.mapPath{position:absolute;background:#f2d6a5;border:5px solid #e6bf82;border-radius:99px;transform-origin:left center;box-shadow:inset 0 0 0 3px #f8e6c6}
+.path1{width:75%;height:34px;left:8%;top:55%;transform:rotate(-7deg)}
+.path2{width:58%;height:32px;left:31%;top:69%;transform:rotate(18deg)}
+.path3{width:45%;height:30px;left:11%;top:39%;transform:rotate(22deg)}
+.mapPlace{
+  position:absolute;width:112px;min-height:96px;padding:10px 7px;border:4px solid #fff;border-radius:22px;
+  background:#fff;box-shadow:0 7px 0 rgba(90,75,102,.13),0 8px 18px rgba(72,62,92,.12);
+  text-align:center;cursor:pointer;transition:.15s;z-index:4;color:#4b3c5e;
+}
+.mapPlace:hover{transform:translateY(-3px)}.mapPlace.locked{filter:saturate(.65);opacity:.8}
+.mapPlace .big{font-size:40px;display:block;line-height:1.05}.mapPlace b{font-size:12px}.mapPlace small{display:block;color:#7d7186;margin-top:3px;font-size:9px}
+.homePlace{left:7%;top:54%}.storePlace{left:39%;top:26%}.libraryPlace{right:6%;top:48%}
+.schoolPlace{left:35%;top:67%}.parkPlace{right:6%;top:72%}.cafePlace{left:8%;top:22%}
+.mapLock{position:absolute;right:7px;top:7px;background:#fff0bd;border:1px solid #edcf7a;border-radius:99px;padding:3px 6px;font-size:10px}
+.mapSign{position:absolute;left:50%;top:6%;transform:translateX(-50%);background:#fffdf7;border:3px solid #e9d8bf;border-radius:16px;padding:8px 15px;text-align:center;z-index:6;box-shadow:0 5px 0 #0001}
+.mapSign b{display:block;font-size:15px}.mapSign small{color:#7d7186}
+.playerMarker{position:absolute;z-index:8;font-size:39px;left:17%;top:59%;filter:drop-shadow(0 4px 1px #0002);transition:.35s;pointer-events:none}
+.mapHint{margin-top:8px;text-align:center;color:#70647c;font-size:11px}
+.shopGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.shopItem{background:#fff;border:2px solid #e7deef;border-radius:18px;padding:12px;text-align:center;box-shadow:0 4px 12px #5b47700d}
+.shopItem .emoji{font-size:42px}.shopItem h3{margin:6px 0 3px;font-size:13px}.shopItem p{font-size:10px;color:#7b7085;min-height:28px}
+.buyBtn{width:100%;border:0;border-radius:12px;padding:9px;background:#f2eaff;color:#6841ae;font-weight:900}
+.buyBtn:disabled{opacity:.5}
+.inventoryStrip{display:flex;gap:7px;overflow:auto;padding:3px 1px}.inventoryChip{background:#fff;border:1px solid #e4d9ee;border-radius:14px;padding:7px 10px;white-space:nowrap;font-size:12px}
+@media(max-width:699px){.worldMap{min-height:450px}.mapPlace{width:86px;min-height:82px;border-radius:18px;padding:7px 4px}.mapPlace .big{font-size:31px}.shopGrid{grid-template-columns:1fr 1fr}.mapSign{top:4%;font-size:12px}}
+@media(max-width:380px){.worldMap{min-height:420px}.mapPlace{width:76px}.shopGrid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -215,26 +340,26 @@ body:has(#app:target) #app{display:block}
 <button class="secondary full" onclick="openSheet('customQuest')">➕ Create your own quest</button>
 </section>
 
-<section id="world" class="screen"><div class="sectionTitle">🏠 My Home</div>
-<div class="card"><div class="row"><div><b>Detailed Blueprint Home</b><div class="sub">A one-floor, top-down home with doors, windows, fixtures and movable furniture.</div></div><span class="pill" id="houseTierLabel">Starter</span></div>
-<div class="houseBlueprint" style="margin-top:12px"><div class="roofShape"></div><div class="houseDetails"><div class="houseDetail"><b>📐 Top-down</b><small>See your whole home</small></div><div class="houseDetail"><b>🪑 Move it</b><small>Drag furniture anywhere</small></div><div class="houseDetail"><b>✨ Make it yours</b><small>Collect rare pieces</small></div></div><div class="floorPlan" id="floorPlan">
-<div class="planRoom r-bed"><span>BEDROOM</span><div class="fixture fix-bed">🛏️</div></div>
-<div class="planRoom r-study"><span>STUDY</span><div class="fixture fix-desk">🖥️</div></div>
-<div class="planRoom r-bath"><span>BATHROOM</span><div class="fixture fix-bath">🛁</div></div>
-<div class="planRoom r-living"><span>LIVING ROOM</span><div class="fixture fix-sofa">🛋️</div><div class="fixture fix-rug">🟦</div></div>
-<div class="planRoom r-stairs"><span>STAIRS</span><div class="fixture fix-stairs">🪜</div></div>
-<div class="planRoom r-kitchen"><span>KITCHEN</span><div class="fixture fix-counter">🍳</div><div class="fixture fix-sink">🚰</div></div>
-<div class="planRoom r-storage"><span>STORAGE</span><div class="fixture fix-box">📦</div></div>
-<div class="planDoor door-top"></div><div class="planDoor door-study"></div><div class="planDoor door-living"></div><div class="planDoor door-kitchen"></div><div class="planDoor door-storage"></div>
-<div class="planWindow win1"></div><div class="planWindow win2"></div><div class="planWindow win3"></div><div class="planWindow win4"></div>
-<div id="placedFurniture"></div></div><div class="blueprintLegend"><span class="legendChip">🚪 doors</span><span class="legendChip">🪟 windows</span><span class="legendChip">🪑 your furniture</span><span class="legendChip">📐 blueprint grid</span></div><div class="blueprintHint">↔ Drag your furniture • Tap to select • Your layout saves automatically</div>
-<div class="blueprintActions"><button class="secondary" onclick="rotateSelectedFurniture()">↻ Rotate</button><button class="secondary" onclick="removeSelectedFurniture()">🗑️ Remove</button></div></div></div>
-<div class="card"><div class="row"><div><b>🪑 Furniture</b><div class="sub">Buy a piece once, then place it wherever you want.</div></div><span class="pill" id="selectedFurnitureLabel">Nothing selected</span></div><div class="furnitureCatalog" id="furnitureShop" style="margin-top:12px"></div></div>
-<div class="card"><b>🏠 Home upgrades</b><p class="tiny">Big milestones, big homes. House upgrades are cosmetic and never affect your score.</p><div id="houseShop"></div></div>
-<div class="card center"><div style="font-size:52px">🗺️</div><h2>Neighborhood</h2><p class="sub">Your space expands as you complete quests.</p><div class="bar"><div class="fill" id="meadowFill"></div></div><p class="tiny" id="meadowText">0 / 5 quests</p></div>
-<div class="card" id="forestCard"><div class="row"><div><b>📚 Study Spot</b><div class="sub">Unlock at Level 3</div></div><span id="forestLock">🔒</span></div></div>
-<div class="card" id="summitCard"><div class="row"><div><b>🌆 Downtown</b><div class="sub">Unlock at Level 6</div></div><span id="summitLock">🔒</span></div></div>
-<div class="card" id="castleCard"><div class="row"><div><b>🎧 Creative Studio</b><div class="sub">Unlock at Level 10</div></div><span id="castleLock">🔒</span></div></div></section>
+<section id="world" class="screen">
+<div class="sectionTitle">🗺️ Questly World</div>
+<div class="card">
+  <div class="row"><div><b>Explore your Questly town</b><div class="sub">Tap a place to visit it. Locked places open as you level up.</div></div><span class="pill" id="worldLevelPill">Level 0</span></div>
+  <div class="worldMap" id="worldMap">
+    <div class="mapWater"></div>
+    <div class="mapPath path1"></div><div class="mapPath path2"></div><div class="mapPath path3"></div>
+    <div class="mapSign"><b>✨ Questly Town</b><small>Home • School • Shops • Places</small></div>
+    <button class="mapPlace homePlace" onclick="visitPlace('home')"><span class="big">🏠</span><b>Your Home</b><small>Decorate & relax</small></button>
+    <button class="mapPlace storePlace" onclick="visitPlace('store')"><span class="big">🛍️</span><b>Furniture Shop</b><small>Buy new pieces</small></button>
+    <button class="mapPlace libraryPlace" onclick="visitPlace('library')"><span class="big">📚</span><b>Library</b><small>Reading & focus</small></button>
+    <button class="mapPlace schoolPlace" onclick="visitPlace('school')"><span class="big">🎒</span><b>School</b><small>School quests</small><span class="mapLock" id="schoolLock">🔓</span></button>
+    <button class="mapPlace parkPlace" onclick="visitPlace('park')"><span class="big">🌳</span><b>Sunny Park</b><small>Creative breaks</small><span class="mapLock" id="parkLock">🔒 2</span></button>
+    <button class="mapPlace cafePlace" onclick="visitPlace('cafe')"><span class="big">☕</span><b>Cozy Café</b><small>Coming soon</small><span class="mapLock">🔒 4</span></button>
+    <div class="playerMarker" id="playerMarker">🧑‍🎓</div>
+  </div>
+  <div class="mapHint">🚶 Tap a place to walk there • Your character follows the map path</div>
+</div>
+<div class="card" id="worldNotice"><b>🌟 Start exploring</b><p class="tiny">Earn XP and coins from quests to unlock more of Questly Town.</p></div>
+</section>
 
 <section id="character" class="screen"><div class="sectionTitle">👤 Character</div>
 <div class="card center"><div class="bigEmoji" id="charAvatar" style="font-size:68px">🧙</div><h2 id="characterName">Quest Runner</h2><p class="sub">Choose your companion and build your space.</p>
@@ -262,6 +387,12 @@ body:has(#app:target) #app{display:block}
 <div class="card"><div class="row"><div><b>🎨 Background</b><div class="sub">Pick the vibe for your home screen.</div></div></div><div class="swatches" style="margin-top:12px"><button class="swatch" style="background:#0b0c12" onclick="setBg('#0b0c12')"></button><button class="swatch" style="background:#17162a" onclick="setBg('#17162a')"></button><button class="swatch" style="background:#11221f" onclick="setBg('#11221f')"></button><button class="swatch" style="background:#251a1b" onclick="setBg('#251a1b')"></button><button class="swatch" style="background:#1c1d28" onclick="setBg('#1c1d28')"></button><button class="swatch" style="background:#20202a" onclick="setBg('#20202a')"></button><button class="swatch" style="background:#101c2a" onclick="setBg('#101c2a')"></button><button class="swatch" style="background:#211d27" onclick="setBg('#211d27')"></button></div></div>
 <div class="card"><div class="row"><div><b>🏆 Age-group leaderboard</b><div class="sub">A safe prototype preview — real shared rankings need an online backend.</div></div><span class="pill" id="leaderStatus">Off</span></div><div id="leaderboard"></div></div></section>
 </main>
+<section id="shop" class="screen">
+<div class="sectionTitle">🛍️ Furniture Shop</div>
+<div class="card"><div class="row"><div><b>Pick something for your home</b><div class="sub">Bought furniture is added to your collection.</div></div><span class="pill" id="shopCoins">🪙 0</span></div></div>
+<div class="shopGrid" id="shopGrid"></div>
+<div class="card"><b>🧺 Your furniture collection</b><div class="inventoryStrip" id="inventoryStrip" style="margin-top:8px"></div></div>
+</section>
 <nav class="nav"><button class="active" data-s="home" onclick="showScreen('home')"><span>⌂</span><small>Home</small></button><button data-s="quests" onclick="showScreen('quests')"><span>✓</span><small>Quests</small></button><button data-s="world" onclick="showScreen('world')"><span>⌂</span><small>World</small></button><button data-s="character" onclick="showScreen('character')"><span>✦</span><small>Style</small></button><button data-s="profile" onclick="showScreen('profile')"><span>◎</span><small>Profile</small></button></nav>
 
 <div class="overlay" id="overlay" onclick="closeSheets()"></div>
@@ -303,12 +434,12 @@ const badges=[
 const outfits=[
 ['hoodie','🧥','Oversized Hoodie',60,'Top'],['denim','👖','Denim Fit',80,'Bottom'],['tee','👕','Everyday Tee',40,'Top'],['jacket','🧥','Street Jacket',140,'Outerwear'],['sweater','🧶','Knit Sweater',120,'Top'],['cargo','👖','Cargo Pants',110,'Bottom'],['sneakers','👟','Sneakers',90,'Shoes'],['boots','🥾','Boots',150,'Shoes'],['cap','🧢','Cap',50,'Accessory'],['beanie','🧢','Beanie',55,'Accessory'],['headphones','🎧','Headphones',100,'Accessory'],['backpack','🎒','Backpack',125,'Accessory'],['glasses','👓','Glasses',70,'Accessory'],['sports','🏀','Sports Set',130,'Set'],['pajamas','😴','Comfy Set',75,'Set']
 ];
-const defaultState={totalXP:0,level:0,xp:0,streak:0,pet:'🐶',petName:'Buddy',avatar:'🧑‍🎓',outfit:'None',coins:0,completed:0,focus:false,lastQuestDay:'',customQuests:[],ownedOutfits:[],theme:'default',reminderTime:'',nickname:'',ageBand:'14-17',leaderboard:false,bg:'#0b0c12',houseTier:0,ownedFurniture:[],ownedOutfitIds:[],outfitParts:[],roomPlacements:{},roomRotations:{},placedFurniture:[],selectedFurnitureId:null,avatarParts:{base:'🧑',hair:'💇',acc:'✨'}};
-let savedState={};try{savedState=JSON.parse(localStorage.getItem('questlyV13')||localStorage.getItem('questlyV11')||localStorage.getItem('questlyV10')||localStorage.getItem('questlyV8')||'null')||{}}catch(e){savedState={}};let state={...defaultState,...savedState};state.avatarParts={...defaultState.avatarParts,...(state.avatarParts||{})};
+const defaultState={totalXP:0,level:0,xp:0,streak:0,pet:'🐶',petName:'Buddy',avatar:'🧑‍🎓',outfit:'None',coins:0,completed:0,focus:false,lastQuestDay:'',customQuests:[],ownedOutfits:[],theme:'default',reminderTime:'',nickname:'',ageBand:'14-17',leaderboard:false,bg:'#0b0c12',houseTier:0,ownedFurniture:[],ownedOutfitIds:[],outfitParts:[],roomPlacements:{},roomRotations:{},placedFurniture:[],selectedFurnitureId:null,avatarParts:{base:'🧑',hair:'💇',acc:'✨'},inventory:[]};
+let savedState={};try{savedState=JSON.parse(localStorage.getItem('questlyV15')||localStorage.getItem('questlyV13')||localStorage.getItem('questlyV11')||localStorage.getItem('questlyV10')||localStorage.getItem('questlyV8')||'null')||{}}catch(e){savedState={}};let state={...defaultState,...savedState};state.avatarParts={...defaultState.avatarParts,...(state.avatarParts||{})};
 let current=null;
 let questTimer=null,questRemaining=0,questTotal=0,questSize=1.5,questStarted=false,questPaused=false,questStepDone=0;
 
-function save(){localStorage.setItem('questlyV13',JSON.stringify(state));localStorage.setItem('questlyV11',JSON.stringify(state))}
+function save(){localStorage.setItem('questlyV15',JSON.stringify(state));localStorage.setItem('questlyV13',JSON.stringify(state));localStorage.setItem('questlyV11',JSON.stringify(state))}
 function allQuests(){return [...baseQuests,...state.customQuests]}
 function xpNeeded(){return 100}
 function questHTML(q){const school=['read','binder','notes','backpack','plan','review'].includes(q.id);const life=['tidy','water','reset','desk','creative'].includes(q.id);const tag=school?'📚 School':life?'🌱 Life':'🎯 Focus';return `<button class="quest" onclick="openQuest('${q.id}')"><div class="qicon">${q.icon}</div><div style="min-width:0"><h3>${q.title}</h3><p>${q.desc}</p><span class="questSeason">${tag}</span><div class="tiny">⏱ ${q.minutes||5} min · ${q.steps?q.steps.length:1} steps</div></div><div class="xp">+${q.xp}</div></button>`}
@@ -329,7 +460,7 @@ document.getElementById('badgesCount').textContent=badges.filter(b=>b.ok(state))
 document.getElementById('totalXP').textContent=state.totalXP;
 document.getElementById('statsCoins').textContent=state.coins;
 document.getElementById('statsStreak').textContent=state.streak;
-const custom=state.avatarParts?`${state.avatarParts.base}${state.avatarParts.hair}${state.avatarParts.acc}`:state.avatar;document.getElementById('homeAvatar').textContent=custom+((state.outfit&&state.outfit!=='None')?' '+state.outfit:'');document.getElementById('charAvatar').textContent=custom;renderAvatarBuilder();
+const custom=state.avatarParts?`${state.avatarParts.base}${state.avatarParts.hair}${state.avatarParts.acc}`:state.avatar;document.getElementById('homeAvatar').textContent=custom+((state.outfit&&state.outfit!=='None')?' '+state.outfit:'');document.getElementById('charAvatar').textContent=custom;renderAvatarBuilder();renderWorld();renderShop();
 document.getElementById('petDisplay').textContent=state.pet;
 document.getElementById('petCheer').textContent=`${state.petName} is cheering you on!`;
 const oo=outfits.find(x=>x[0]===state.outfit);const outfitEl=document.getElementById('outfit');if(outfitEl)outfitEl.textContent=oo?oo[2]:'None';const roomOutfitEl=document.getElementById('roomOutfit');if(roomOutfitEl)roomOutfitEl.textContent=oo?oo[1]:'•';renderOutfitShop();
@@ -436,5 +567,56 @@ function enterQuestly(){const c=document.getElementById('coverScreen');if(!c)ret
 try{render();}catch(e){console.error('Questly startup error:',e);document.documentElement.dataset.questlyError='1';}
 
 </script>
-<script>if('serviceWorker'in navigator){navigator.serviceWorker.register('./service-worker.js').catch(()=>{});}</script>
+<script>if('serviceWorker'in navigator){navigator.serviceWorker.register('./service-worker.js').catch(()=>{});}
+const worldPlaces={
+ home:{name:'Your Home',minLevel:0,x:'17%',y:'59%'},
+ store:{name:'Furniture Shop',minLevel:0,x:'49%',y:'31%'},
+ library:{name:'Library',minLevel:0,x:'78%',y:'53%'},
+ school:{name:'School',minLevel:1,x:'45%',y:'69%'},
+ park:{name:'Sunny Park',minLevel:2,x:'78%',y:'74%'},
+ cafe:{name:'Cozy Café',minLevel:4,x:'16%',y:'25%'}
+};
+const shopFurniture=[
+ {id:'pinksofa',emoji:'🛋️',name:'Cloud Sofa',cost:320,rarity:'Rare',desc:'A soft centerpiece for your living room.'},
+ {id:'roundtable',emoji:'🪵',name:'Sunny Table',cost:180,rarity:'Uncommon',desc:'A cheerful little table.'},
+ {id:'bookshelf2',emoji:'📚',name:'Tall Bookcase',cost:250,rarity:'Rare',desc:'Extra storage for favorite books.'},
+ {id:'plant2',emoji:'🪴',name:'Big Plant',cost:120,rarity:'Uncommon',desc:'A leafy bit of life.'},
+ {id:'tvstand',emoji:'📺',name:'Media Stand',cost:240,rarity:'Rare',desc:'A cozy entertainment corner.'},
+ {id:'armchair',emoji:'🪑',name:'Plush Chair',cost:200,rarity:'Rare',desc:'A comfy reading seat.'},
+ {id:'lamp2',emoji:'💡',name:'Star Lamp',cost:150,rarity:'Uncommon',desc:'Warm light for your room.'},
+ {id:'rug2',emoji:'🟣',name:'Round Rug',cost:100,rarity:'Common',desc:'A pop of color for the floor.'},
+ {id:'picture2',emoji:'🖼️',name:'Tiny Art',cost:90,rarity:'Common',desc:'A little something for the wall.'}
+];
+function currentLevel(){return Math.max(0,Math.floor((state.xp||0)/100))}
+function inventory(){return Array.isArray(state.inventory)?state.inventory:[]}
+function renderShop(){
+ const grid=document.getElementById('shopGrid'), strip=document.getElementById('inventoryStrip'), coins=document.getElementById('shopCoins');
+ if(!grid)return;
+ if(coins)coins.textContent='🪙 '+(state.coins||0);
+ grid.innerHTML=shopFurniture.map(f=>`<div class="shopItem"><div class="emoji">${f.emoji}</div><h3>${f.name}</h3><div class="tiny">${f.rarity}</div><p>${f.desc}</p><button class="buyBtn" ${state.coins<f.cost?'disabled':''} onclick="buyShopItem('${f.id}')">🪙 ${f.cost}</button></div>`).join('');
+ if(strip)strip.innerHTML=inventory().length?inventory().map(id=>{const f=shopFurniture.find(x=>x.id===id);return f?`<span class="inventoryChip">${f.emoji} ${f.name}</span>`:''}).join(''):'<span class="tiny">Your collection is waiting for its first piece. ✨</span>';
+}
+function buyShopItem(id){
+ const f=shopFurniture.find(x=>x.id===id);if(!f)return;
+ if((state.coins||0)<f.cost){toast('🪙 Keep questing to earn more coins!');return}
+ state.coins-=f.cost;state.inventory=[...inventory(),id];save();updateUI();renderShop();toast(`${f.emoji} ${f.name} added to your collection!`);
+}
+function visitPlace(place){
+ const info=worldPlaces[place];if(!info)return;
+ const lvl=currentLevel();
+ if(lvl<info.minLevel){toast(`🔒 Unlocks at Level ${info.minLevel}`);return}
+ const marker=document.getElementById('playerMarker');if(marker){marker.style.left=info.x;marker.style.top=info.y}
+ const notice=document.getElementById('worldNotice');
+ if(notice)notice.innerHTML=`<b>📍 ${info.name}</b><p class="tiny">${place==='store'?'Browse furniture and spend coins.':place==='home'?'Head home to decorate your rooms.':place==='library'?'Try a reading or focus quest.':place==='school'?'Choose a school quest and make the next step easier.':place==='park'?'Take a creative break and explore.':'This place is being prepared for a future update.'}</p>`;
+ if(place==='store')showScreen('shop',document.querySelector('.nav button:nth-child(3)'));
+ if(place==='home')showScreen('world',document.querySelector('.nav button:nth-child(2)'));
+}
+function renderWorld(){
+ const lvl=currentLevel(),pill=document.getElementById('worldLevelPill');if(pill)pill.textContent='Level '+lvl;
+ const locks={school:[1,'schoolLock'],park:[2,'parkLock'],cafe:[4,null]};
+ Object.entries(locks).forEach(([key,val])=>{const el=document.getElementById(val[1]);if(el)el.textContent=lvl>=val[0]?'🔓':'🔒 '+val[0]});
+ const marker=document.getElementById('playerMarker');if(marker)marker.textContent=state.avatarParts?`${state.avatarParts.base}`:(state.avatar||'🧑‍🎓');
+}
+
+</script>
 </body></html>
