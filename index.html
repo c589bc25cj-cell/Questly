@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#15122b">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-192.png">
-<title>Questly — Questly World</title>
+<title>Questly — Questly World · v25</title>
 <style>
 :root{
   --bg:#0b0c12;--panel:#14161f;--panel2:#1b1e2a;--line:#303442;
@@ -130,6 +130,35 @@ input,select{background:var(--panel2);color:var(--text);border-color:var(--line)
 .theme-berry{--bg:#f9f0f8;--panel:#ffffff;--panel2:#fcf7fb;--line:#ead8e7;--text:#5a4358;--muted:#8b7188;--accent:#b35d9c;--gold:#dda52a;--good:#75b48b}
 .theme-midnight{--bg:#0b0c12;--panel:#14161f;--panel2:#1b1e2a;--line:#303442;--text:#f4f3f7;--muted:#a6a8b5;--accent:#a99cff;--gold:#e7c56b;--good:#79d7a2}
 .photoGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.photoCard{border:2px dashed var(--line);border-radius:14px;padding:8px;text-align:center;background:var(--panel2)}.photoPreview{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;background:color-mix(in srgb,var(--accent) 7%,var(--panel));display:block}.photoCard small{display:block;color:var(--muted);margin:5px 0}.photoInput{display:none}.photoChoose{display:block;border:1px solid var(--line);border-radius:10px;padding:8px;color:var(--accent);font-weight:800;background:var(--panel);cursor:pointer}.photoNote{font-size:11px;color:var(--muted);margin-top:8px}
+
+/* Questly v25 visual polish — keeps the existing game logic and interactions intact. */
+html,body{min-width:0;overflow-x:hidden}
+.app{width:100%!important;max-width:none!important;margin:0!important;background:transparent!important}
+main{width:100%!important;max-width:none!important}
+@media(min-width:900px){main{padding-left:28px;padding-right:28px}.screen{max-width:1500px;margin:0 auto}}
+.card{box-shadow:0 8px 28px rgba(91,64,83,.08)}
+/* prettier home scene */
+.cozyRoom{height:560px!important;border:8px solid #fff!important;border-radius:30px!important;background:linear-gradient(180deg,var(--wall,#f7e4d9) 0 57%,var(--floor,#d6a97d) 57%)!important;box-shadow:inset 0 0 0 3px rgba(171,126,105,.25),0 14px 28px rgba(91,64,83,.12)!important}
+.cozyRoom:before{top:57%!important;height:5px!important;background:rgba(154,104,78,.32)!important}
+.loftLights{top:2%!important;left:7%!important;font-size:20px!important;letter-spacing:11px!important;color:#ffd977!important;text-shadow:0 2px 8px #b9783c66!important}
+.loftWindow{right:6%!important;top:6%!important;width:25%!important;height:25%!important;border:8px solid #fff!important;border-radius:26px!important;background:linear-gradient(#8ed5ef,#e7f8ff)!important;box-shadow:0 7px 0 rgba(166,116,88,.25)!important}
+.loftBed{left:6%!important;top:15%!important;width:42%!important;height:23%!important;background:#fff!important;border:6px solid #b7836b!important;border-radius:24px!important;box-shadow:0 9px 0 #a56f58!important}
+.loftBed:before{background:color-mix(in srgb,var(--accent) 22%,white)!important;height:40%!important}
+.loftBlanket{background:color-mix(in srgb,var(--accent) 18%,white)!important}
+.loftSofa{left:6%!important;bottom:11%!important;width:40%!important;height:20%!important;background:color-mix(in srgb,var(--accent) 62%,white)!important;border-color:color-mix(in srgb,var(--accent) 45%,#8e625d)!important}
+.loftSofa:before{background:color-mix(in srgb,var(--accent) 18%,white)!important}
+.loftRug{left:21%!important;bottom:5%!important;width:55%!important;height:19%!important;background:color-mix(in srgb,var(--accent) 7%,white)!important}
+.loftTable{left:43%!important;bottom:17%!important;width:20%!important;height:10%!important;background:#b47d55!important}
+.loftShelf{right:5%!important;top:38%!important;width:28%!important;height:26%!important;background:#b97c59!important}
+.miniKitchen{right:3%!important;bottom:12%!important;width:31%!important;height:27%!important;background:#f0dfd0!important;border-color:#bc9275!important}
+.roomAvatar{width:145px!important;height:215px!important;top:43%!important}
+.roomAvatar svg{filter:drop-shadow(0 10px 5px rgba(75,54,64,.18))!important}
+.avatarStage{min-height:390px!important;border-radius:28px!important;background:radial-gradient(circle at 50% 20%,#fff 0 15%,transparent 16%),linear-gradient(145deg,color-mix(in srgb,var(--accent) 12%,white),#f8f5fb 62%,color-mix(in srgb,var(--good) 12%,white))!important}
+.avatarStage svg{width:220px!important;height:330px!important}
+.avatarOption.selected,.choice.selected{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 24%,transparent)!important}
+/* iPad portrait/landscape: never leave a giant unused column */
+@media(min-width:900px) and (max-width:1400px){.app{padding-left:185px!important}.screen{max-width:none!important}.cozyRoom{height:500px!important}.roomAvatar{width:125px!important;height:195px!important}}
+
 </style>
 
 
@@ -561,30 +590,31 @@ const avatarConfig={
 };
 function esc(x){return String(x).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function avatarSVG(p){
-  const skin=p.skin||'#f1c7a7', top=p.topColor||'#e99aad', bottom=p.bottomColor||'#d7b4a0', shoe=p.shoeColor||'#fff2f4', hc=p.hairColor||'#5b3528';
+  const skin=p.skin||'#f1c7a7', top=p.topColor||'#e99aad', bottom=p.bottomColor||'#7897b7', shoe=p.shoeColor||'#fff2f4', hc=p.hairColor||'#5b3528';
   const g=p.gender||'girl', len=p.hairLength||'long', style=p.hairStyle||'wavy';
-  const longMap={veryShort:{top:31,side:0,bottom:70},short:{top:28,side:0,bottom:91},medium:{top:25,side:8,bottom:113},long:{top:23,side:13,bottom:145},veryLong:{top:21,side:18,bottom:178},extraLong:{top:19,side:23,bottom:207}};
-  const L=longMap[len]||longMap.long;
-  const hairBase=`<path d="M${55-L.side} ${L.bottom-52} Q${52-L.side} ${L.top} 100 ${L.top-3} Q${148+L.side} ${L.top} ${145+L.side} ${L.bottom-52} L${132+L.side} ${L.bottom} Q100 ${L.bottom-20} ${68-L.side} ${L.bottom}Z" fill="${hc}"/>`;
-  const curls=`<g fill="${hc}">${[62,82,102,122,142].map((x,i)=>`<circle cx="${x}" cy="${36+(i%2)*10}" r="20"/>`).join('')}<circle cx="58" cy="72" r="17"/><circle cx="142" cy="72" r="17"/></g>`;
-  const sideLocks=L.side?`<path d="M${55-L.side} 62 Q${35-L.side} ${L.bottom-30} ${56-L.side} ${L.bottom}" fill="${hc}"/><path d="M${145+L.side} 62 Q${165+L.side} ${L.bottom-30} ${144+L.side} ${L.bottom}" fill="${hc}"/>`:'';
-  const braid=`<g fill="${hc}"><path d="M56 62 Q43 88 54 ${L.bottom} Q67 ${L.bottom-15} 63 78Z"/><path d="M144 62 Q157 88 146 ${L.bottom} Q133 ${L.bottom-15} 137 78Z"/></g>`;
-  const pony=`<path d="M139 38 Q178 35 166 92 Q159 113 142 99Z" fill="${hc}"/>`;
-  const bun=`<circle cx="142" cy="25" r="18" fill="${hc}"/>`;
-  let hair=hairBase+sideLocks;
-  if(style==='curly') hair=curls+sideLocks;
-  if(style==='braids') hair=hairBase+braid;
-  if(style==='ponytail') hair=hairBase+pony;
-  if(style==='bun') hair=hairBase+bun;
-  if(style==='messy') hair=`<path d="M${55-L.side} 72 Q48 16 86 28 Q100 4 115 26 Q153 16 ${145+L.side} 72 L${132+L.side} ${L.bottom}H${68-L.side}Z" fill="${hc}"/>`;
-  if(style==='bangs') hair=hairBase+`<path d="M57 61 Q75 37 100 52 Q125 37 143 61 Q131 72 117 63 Q100 77 83 63 Q70 72 57 61Z" fill="${hc}"/>`;
   const isBoy=g==='boy';
-  const neckY=113, torsoY=121;
+  const hairLen={veryShort:34,short:55,medium:78,long:104,veryLong:132,extraLong:160}[len]||104;
+  const side=({veryShort:0,short:3,medium:8,long:14,veryLong:19,extraLong:24}[len]||14);
+  let hair=`<path d="M${57-side} 79 Q${55-side} 18 100 17 Q${145+side} 18 ${143+side} 79 L${134+side} ${hairLen+25} Q100 ${hairLen+43} ${66-side} ${hairLen+25}Z" fill="url(#hair)"/>`;
+  if(style==='straight') hair+=`<path d="M${58-side} 72 Q${50-side} 105 ${65-side} ${hairLen+18}" fill="none" stroke="${hc}" stroke-width="15" stroke-linecap="round"/><path d="M${142+side} 72 Q${150+side} 105 ${135+side} ${hairLen+18}" fill="none" stroke="${hc}" stroke-width="15" stroke-linecap="round"/>`;
+  if(style==='wavy') hair+=`<path d="M60 67 Q42 90 62 112 T60 ${hairLen+15}" fill="none" stroke="${hc}" stroke-width="18" stroke-linecap="round"/><path d="M140 67 Q158 90 138 112 T140 ${hairLen+15}" fill="none" stroke="${hc}" stroke-width="18" stroke-linecap="round"/>`;
+  if(style==='curly') hair+=`<g fill="none" stroke="${hc}" stroke-width="14" stroke-linecap="round"><path d="M62 65 q-20 18 0 36t0 36t0 36"/><path d="M138 65 q20 18 0 36t0 36t0 36"/><path d="M78 30 q-12 14 0 28"/><path d="M122 30 q12 14 0 28"/></g>`;
+  if(style==='braids') hair+=`<g fill="none" stroke="${hc}" stroke-width="13" stroke-linecap="round"><path d="M63 67 Q43 92 58 120 Q43 145 59 170"/><path d="M137 67 Q157 92 142 120 Q157 145 141 170"/></g>`;
+  if(style==='ponytail') hair+=`<path d="M139 38 Q181 38 168 90 Q161 108 143 99" fill="${hc}" stroke="${hc}" stroke-width="10"/><circle cx="144" cy="51" r="7" fill="#e78fa8"/>`;
+  if(style==='bun') hair+=`<circle cx="100" cy="16" r="24" fill="${hc}"/><circle cx="116" cy="12" r="13" fill="${hc}"/>`;
+  if(style==='messy') hair+=`<path d="M59 58 Q52 31 77 30 L70 13 L92 25 L103 7 L112 26 L137 12 L130 35 Q151 30 142 63" fill="${hc}"/>`;
+  if(style==='bangs') hair+=`<path d="M58 57 Q78 35 100 50 Q122 35 142 57 Q130 72 115 62 Q100 76 85 62 Q70 72 58 57Z" fill="${hc}"/>`;
   const outfit=isBoy
-    ? `<path d="M69 122 Q100 112 131 122 L140 186 H60Z" fill="${top}" stroke="#ffffff99" stroke-width="2"/><path d="M100 124V185" stroke="#ffffff88" stroke-width="3"/><path d="M70 145L54 178M130 145L146 178" stroke="${top}" stroke-width="18" stroke-linecap="round"/><rect x="72" y="179" width="24" height="45" rx="8" fill="${bottom}"/><rect x="104" y="179" width="24" height="45" rx="8" fill="${bottom}"/>`
-    : `<path d="M68 121 Q100 111 132 121 L137 187 H63Z" fill="${top}" stroke="#ffffffaa" stroke-width="2"/><path d="M70 143L52 177M130 143L148 177" stroke="${top}" stroke-width="17" stroke-linecap="round"/><path d="M82 182 Q100 190 118 182 L123 224H77Z" fill="${bottom}"/>`;
-  const accessory={none:'',bow:`<g><path d="M134 42 Q119 30 119 47 Q130 55 142 47 Q154 55 165 47 Q165 30 150 42Z" fill="#e78fa8"/><circle cx="142" cy="46" r="6" fill="#c96f8b"/></g>`,glasses:`<g fill="none" stroke="#493d4d" stroke-width="4"><rect x="65" y="70" width="29" height="22" rx="8"/><rect x="106" y="70" width="29" height="22" rx="8"/><path d="M94 78h12"/></g>`,headphones:`<path d="M58 86Q55 38 100 35Q145 38 142 86" fill="none" stroke="#8d79c5" stroke-width="8"/><circle cx="58" cy="84" r="10" fill="#b9a4e3"/><circle cx="142" cy="84" r="10" fill="#b9a4e3"/>`,cap:`<path d="M57 55Q66 25 100 25Q134 25 143 55Z" fill="#647fae"/><path d="M63 57Q105 50 154 64" fill="none" stroke="#4e638c" stroke-width="8"/>`,backpack:`<path d="M48 132Q39 144 47 188H68V137Z" fill="#d98fa0"/><path d="M152 132Q161 144 153 188H132V137Z" fill="#6f8fc0"/>`};
-  return `<svg viewBox="0 0 200 270" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="skin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${skin}"/><stop offset="1" stop-color="${skin}"/></linearGradient><linearGradient id="cloth" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${top}"/><stop offset="1" stop-color="${top}"/></linearGradient></defs><ellipse cx="100" cy="253" rx="54" ry="10" fill="#59485a22"/>${outfit}<rect x="87" y="108" width="26" height="20" rx="8" fill="url(#skin)"/><circle cx="100" cy="75" r="43" fill="url(#skin)"/>${hair}<ellipse cx="84" cy="79" rx="4" ry="5" fill="#3d3340"/><ellipse cx="116" cy="79" rx="4" ry="5" fill="#3d3340"/><circle cx="82" cy="78" r="1.4" fill="#fff"/><circle cx="114" cy="78" r="1.4" fill="#fff"/><path d="M91 95 Q100 ${isBoy?98:101} 109 95" stroke="#8b594b" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M78 63 Q84 59 90 63M110 63 Q116 59 122 63" stroke="#6d4438" stroke-width="3" fill="none" stroke-linecap="round"/>${accessory[p.accessory]||''}<rect x="69" y="219" width="31" height="14" rx="7" fill="${shoe}"/><rect x="100" y="219" width="31" height="14" rx="7" fill="${shoe}"/><path d="M70 224H100M100 224H130" stroke="#6b5d62" stroke-width="2" opacity=".35"/><circle cx="100" cy="143" r="3" fill="#ffffff88"/><text x="100" y="162" text-anchor="middle" font-size="7" font-weight="700" fill="#ffffff99">QUESTLY</text></svg>`;
+    ? `<path d="M68 124 Q100 113 132 124 L141 188 H59Z" fill="url(#top)" stroke="#ffffffaa" stroke-width="2"/><path d="M100 126V186" stroke="#ffffff88" stroke-width="3"/><path d="M70 145L54 178M130 145L146 178" stroke="${top}" stroke-width="18" stroke-linecap="round"/><path d="M72 181H98V230H72Z" fill="url(#bottom)"/><path d="M102 181H128V230H102Z" fill="url(#bottom)"/>`
+    : `<path d="M68 124 Q100 113 132 124 L137 188 H63Z" fill="url(#top)" stroke="#ffffffaa" stroke-width="2"/><path d="M70 145L52 178M130 145L148 178" stroke="${top}" stroke-width="17" stroke-linecap="round"/><path d="M82 183 Q100 191 118 183 L123 230H77Z" fill="url(#bottom)"/>`;
+  const accessory={
+    none:'',bow:`<path d="M91 47 Q72 33 72 50 Q82 61 99 52 Q118 62 128 50 Q128 33 109 47Z" fill="#e78fa8"/><circle cx="100" cy="50" r="6" fill="#c96f8b"/>`,
+    glasses:`<g fill="none" stroke="#493d4d" stroke-width="4"><rect x="62" y="69" width="32" height="23" rx="9"/><rect x="106" y="69" width="32" height="23" rx="9"/><path d="M94 78h12"/></g>`,
+    headphones:`<path d="M57 87Q54 34 100 32Q146 34 143 87" fill="none" stroke="#8d79c5" stroke-width="9"/><circle cx="57" cy="86" r="11" fill="#b9a4e3"/><circle cx="143" cy="86" r="11" fill="#b9a4e3"/>`,
+    cap:`<path d="M58 53Q68 23 100 23Q132 23 142 53Z" fill="#647fae"/><path d="M61 56Q104 49 153 64" fill="none" stroke="#4e638c" stroke-width="8"/>`,
+    backpack:`<path d="M48 132Q39 145 47 190H68V138Z" fill="#d98fa0"/><path d="M152 132Q161 145 153 190H132V138Z" fill="#6f8fc0"/>`
+  };
+  return `<svg viewBox="0 0 200 270" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="hair" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${hc}"/><stop offset=".55" stop-color="${hc}"/><stop offset="1" stop-color="#2b1d1a"/></linearGradient><linearGradient id="top" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${top}"/><stop offset="1" stop-color="color-mix(in srgb, ${top} 72%, white)"/></linearGradient><linearGradient id="bottom" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${bottom}"/><stop offset="1" stop-color="color-mix(in srgb, ${bottom} 75%, white)"/></linearGradient></defs><ellipse cx="100" cy="254" rx="56" ry="9" fill="#59485a22"/>${outfit}<rect x="87" y="108" width="26" height="20" rx="8" fill="${skin}"/><ellipse cx="100" cy="77" rx="44" ry="47" fill="${skin}"/><ellipse cx="72" cy="87" rx="8" ry="5" fill="#eaa5a044"/><ellipse cx="128" cy="87" rx="8" ry="5" fill="#eaa5a044"/>${hair}<ellipse cx="83" cy="79" rx="5" ry="7" fill="#332a30"/><ellipse cx="117" cy="79" rx="5" ry="7" fill="#332a30"/><circle cx="81.5" cy="77" r="1.8" fill="white"/><circle cx="115.5" cy="77" r="1.8" fill="white"/><path d="M91 96 Q100 ${isBoy?99:102} 109 96" stroke="#8b594b" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M76 62 Q83 57 91 61M109 61 Q117 57 124 62" stroke="#6d4438" stroke-width="3" fill="none" stroke-linecap="round"/>${accessory[p.accessory]||''}<path d="M68 220 Q83 216 99 222 L98 235H68Z" fill="${shoe}"/><path d="M102 222 Q118 216 132 220 L132 235H102Z" fill="${shoe}"/><path d="M71 226H98M104 226H129" stroke="#6b5d62" stroke-width="2" opacity=".35"/></svg>`;
 }
 function setAvatarChoice(k,v){state.avatarDesign={...state.avatarDesign,[k]:v};renderAvatarBuilder();renderAvatarTargets()}
 function renderColorGroup(id,items,key){const b=document.getElementById(id);if(!b)return;b.innerHTML=items.map(([c,n])=>`<button class="colorDot ${state.avatarDesign[key]===c?'selected':''}" title="${n}" style="background:${c}" onclick="setAvatarChoice('${key}','${c}')"></button>`).join('')}
