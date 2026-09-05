@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#15122b">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-192.png">
-<title>Questly — Your Space</title>
+<title>Questly — v13</title>
 <style>
 :root{
   --bg:#0b0c12;--panel:#14161f;--panel2:#1b1e2a;--line:#303442;
@@ -64,7 +64,7 @@ background:#242137;box-shadow:0 0 0 1px #a99cff33}
 padding:7px 8px calc(7px + env(safe-area-inset-bottom));background:#10121aeF;
 backdrop-filter:blur(18px);border-top:1px solid #292c37;display:grid;
 grid-template-columns:repeat(4,1fr);z-index:10}
-.nav button{background:none;border:0;color:#7f8292;padding:4px}.nav button.active{color:#b2a9ff}
+.nav{grid-template-columns:repeat(5,1fr)}.nav button{background:none;border:0;color:#7f8292;padding:4px}.nav button.active{color:#b2a9ff}
 .nav span{display:block;font-size:20px}.nav small{font-size:11px;font-weight:750}
 .sheet{position:fixed;inset:auto 0 0;max-width:700px;margin:auto;background:#151720;
 border:1px solid #303442;border-radius:20px 20px 0 0;padding:19px 17px calc(19px + env(safe-area-inset-bottom));
@@ -133,6 +133,56 @@ body:has(#app:target) #coverScreen{opacity:0;pointer-events:none}
 body:has(#app:target) #app{display:block}
 #startQuestlyToggle:checked ~ #coverScreen{display:none !important}
 #startQuestlyToggle:checked ~ #app{display:block !important}
+
+/* v13 detailed blueprint */
+.floorPlan{
+  position:relative;height:430px;overflow:hidden;border:4px solid #66769b;border-radius:24px;
+  background-color:#fbfdff;
+  background-image:
+    linear-gradient(#dbe7f5 1px,transparent 1px),
+    linear-gradient(90deg,#dbe7f5 1px,transparent 1px),
+    linear-gradient(#eef4fb 1px,transparent 1px),
+    linear-gradient(90deg,#eef4fb 1px,transparent 1px);
+  background-size:28px 28px,28px 28px,7px 7px,7px 7px;
+  box-shadow:inset 0 0 0 7px #fff, 0 8px 20px rgba(65,75,105,.12);
+}
+.planRoom{
+  position:absolute;background:rgba(255,255,255,.88);border:5px solid #596a91;
+  border-radius:18px;box-shadow:inset 0 0 0 2px #d9e2ef;overflow:hidden;
+}
+.planRoom:after{content:"";position:absolute;inset:8px;border:1px dashed #c5d1e3;border-radius:11px;pointer-events:none}
+.planRoom span{position:absolute;left:10px;top:8px;font-size:9px;font-weight:900;letter-spacing:.8px;color:#566681;background:#fff;padding:3px 6px;border-radius:8px;z-index:2}
+.r-bed{left:3%;top:4%;width:37%;height:30%}
+.r-study{left:42%;top:4%;width:27%;height:30%}
+.r-bath{left:71%;top:4%;width:26%;height:30%}
+.r-living{left:3%;top:38%;width:45%;height:43%}
+.r-stairs{left:51%;top:38%;width:18%;height:43%}
+.r-kitchen{left:72%;top:38%;width:25%;height:28%}
+.r-storage{left:72%;top:70%;width:25%;height:11%}
+.planDoor{position:absolute;background:#fff;border:3px solid #e8b36b;border-radius:7px;z-index:4}
+.planWindow{position:absolute;background:#8ed4ef;border:3px solid #5b9fc0;border-radius:4px;z-index:4;box-shadow:0 0 0 2px #fff}
+.door-top{width:34px;height:9px;left:39%;top:31%}.door-study{width:9px;height:32px;left:69%;top:17%}
+.door-living{width:32px;height:9px;left:46%;top:51%}.door-kitchen{width:9px;height:30px;left:70%;top:52%}
+.door-storage{width:30px;height:8px;left:83%;top:67%}
+.win1{width:52px;height:7px;left:7%;top:1%}.win2{width:52px;height:7px;left:76%;top:1%}
+.win3{width:7px;height:52px;left:1%;top:50%}.win4{width:7px;height:45px;right:1%;top:44%}
+.fixture{position:absolute;z-index:3;font-size:22px;filter:drop-shadow(0 2px 1px rgba(40,55,80,.15));user-select:none}
+.fix-bed{left:10%;top:14%}.fix-desk{left:47%;top:15%}.fix-bath{left:78%;top:14%}
+.fix-sofa{left:12%;top:51%}.fix-rug{left:27%;top:65%;font-size:38px}.fix-stairs{left:55%;top:52%}
+.fix-counter{left:76%;top:47%}.fix-sink{left:86%;top:48%}.fix-box{left:77%;top:73%;font-size:18px}
+.blueprintLegend{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px;justify-content:center}
+.legendChip{background:#fff;border:1px solid #d9e2ef;border-radius:99px;padding:5px 8px;font-size:10px;color:#61708b}
+.roomLock{position:absolute;inset:0;background:rgba(246,248,252,.84);display:flex;align-items:center;justify-content:center;z-index:8;font-size:24px}
+.roomLock b{font-size:11px;color:#61708b;background:#fff;border:1px solid #d8e0ec;padding:6px 8px;border-radius:9px}
+.avatarBuilder{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.avatarPreview{min-height:125px;border-radius:20px;background:linear-gradient(145deg,#eef5ff,#fff6ea);border:2px solid #dce5f2;display:grid;place-items:center;position:relative;overflow:hidden}
+.avatarLayer{font-size:54px;position:absolute}.avatarLayer.hair{font-size:42px;transform:translateY(-27px)}.avatarLayer.acc{font-size:30px;transform:translate(25px,-20px)}
+.builderGroup{background:#fffaf2;border:2px solid #eee5d8;border-radius:16px;padding:10px}
+.builderGroup b{display:block;margin-bottom:7px;color:#38445f}
+.builderChoices{display:flex;flex-wrap:wrap;gap:6px}.builderChoices button{background:#fff;border:1px solid #dfe5ef;border-radius:11px;padding:7px 9px;font-size:21px}
+.builderChoices button.selected{border-color:#9f95ed;box-shadow:0 0 0 2px #9f95ed33;background:#f4f1ff}
+.questSeason{display:inline-block;margin-top:6px;padding:3px 7px;border-radius:99px;background:#eef5ff;color:#64728b;font-size:10px;font-weight:800}
+
 </style>
 </head>
 <body>
@@ -161,15 +211,23 @@ body:has(#app:target) #app{display:block}
 
 <section id="quests" class="screen"><div class="sectionTitle">✓ Quests</div>
 <div class="card"><b>What's your energy like?</b><div class="sub" style="margin-top:5px">Pick a size if you want one. You can always change your mind.</div><div class="grid" style="margin-top:12px"><button class="choice" onclick="setEnergy(this,'Tiny')">•<br><b>Tiny</b><br><span class="tiny">1–3 min</span></button><button class="choice" onclick="setEnergy(this,'Normal')">••<br><b>Normal</b><br><span class="tiny">5–15 min</span></button><button class="choice" onclick="setEnergy(this,'Big')">•••<br><b>Big</b><br><span class="tiny">15+ min</span></button></div><div id="energyText" class="tiny" style="margin-top:10px">No choice is required.</div></div>
-<div id="questList"></div>
+<div class="card"><b>📚 Year-round quests</b><p class="tiny">Questly now has everyday, school, focus and creative quests so you can use it during school weeks, weekends and breaks.</p></div><div id="questList"></div>
 <button class="secondary full" onclick="openSheet('customQuest')">➕ Create your own quest</button>
 </section>
 
 <section id="world" class="screen"><div class="sectionTitle">🏠 My Home</div>
-<div class="card"><div class="row"><div><b>Blueprint Home</b><div class="sub">Tap furniture to select it, then drag it anywhere inside your house.</div></div><span class="pill" id="houseTierLabel">Starter</span></div>
+<div class="card"><div class="row"><div><b>Detailed Blueprint Home</b><div class="sub">A one-floor, top-down home with doors, windows, fixtures and movable furniture.</div></div><span class="pill" id="houseTierLabel">Starter</span></div>
 <div class="houseBlueprint" style="margin-top:12px"><div class="roofShape"></div><div class="houseDetails"><div class="houseDetail"><b>📐 Top-down</b><small>See your whole home</small></div><div class="houseDetail"><b>🪑 Move it</b><small>Drag furniture anywhere</small></div><div class="houseDetail"><b>✨ Make it yours</b><small>Collect rare pieces</small></div></div><div class="floorPlan" id="floorPlan">
-<div class="planRoom r-bed"><span>BEDROOM</span></div><div class="planRoom r-study"><span>STUDY</span></div><div class="planRoom r-living"><span>LIVING ROOM</span></div><div class="planRoom r-bath"><span>BATHROOM</span></div><div class="planRoom r-stairs"><span>STAIRS</span></div><div class="planRoom r-kitchen"><span>KITCHEN</span></div><div class="planRoom r-storage"><span>STORAGE</span></div>
-<div id="placedFurniture"></div></div><div class="blueprintHint">↔ Drag furniture • Tap to select • Your layout saves automatically</div>
+<div class="planRoom r-bed"><span>BEDROOM</span><div class="fixture fix-bed">🛏️</div></div>
+<div class="planRoom r-study"><span>STUDY</span><div class="fixture fix-desk">🖥️</div></div>
+<div class="planRoom r-bath"><span>BATHROOM</span><div class="fixture fix-bath">🛁</div></div>
+<div class="planRoom r-living"><span>LIVING ROOM</span><div class="fixture fix-sofa">🛋️</div><div class="fixture fix-rug">🟦</div></div>
+<div class="planRoom r-stairs"><span>STAIRS</span><div class="fixture fix-stairs">🪜</div></div>
+<div class="planRoom r-kitchen"><span>KITCHEN</span><div class="fixture fix-counter">🍳</div><div class="fixture fix-sink">🚰</div></div>
+<div class="planRoom r-storage"><span>STORAGE</span><div class="fixture fix-box">📦</div></div>
+<div class="planDoor door-top"></div><div class="planDoor door-study"></div><div class="planDoor door-living"></div><div class="planDoor door-kitchen"></div><div class="planDoor door-storage"></div>
+<div class="planWindow win1"></div><div class="planWindow win2"></div><div class="planWindow win3"></div><div class="planWindow win4"></div>
+<div id="placedFurniture"></div></div><div class="blueprintLegend"><span class="legendChip">🚪 doors</span><span class="legendChip">🪟 windows</span><span class="legendChip">🪑 your furniture</span><span class="legendChip">📐 blueprint grid</span></div><div class="blueprintHint">↔ Drag your furniture • Tap to select • Your layout saves automatically</div>
 <div class="blueprintActions"><button class="secondary" onclick="rotateSelectedFurniture()">↻ Rotate</button><button class="secondary" onclick="removeSelectedFurniture()">🗑️ Remove</button></div></div></div>
 <div class="card"><div class="row"><div><b>🪑 Furniture</b><div class="sub">Buy a piece once, then place it wherever you want.</div></div><span class="pill" id="selectedFurnitureLabel">Nothing selected</span></div><div class="furnitureCatalog" id="furnitureShop" style="margin-top:12px"></div></div>
 <div class="card"><b>🏠 Home upgrades</b><p class="tiny">Big milestones, big homes. House upgrades are cosmetic and never affect your score.</p><div id="houseShop"></div></div>
@@ -181,6 +239,17 @@ body:has(#app:target) #app{display:block}
 <section id="character" class="screen"><div class="sectionTitle">👤 Character</div>
 <div class="card center"><div class="bigEmoji" id="charAvatar" style="font-size:68px">🧙</div><h2 id="characterName">Quest Runner</h2><p class="sub">Choose your companion and build your space.</p>
 <h3>🐾 Companions</h3><div class="grid"><button class="choice" onclick="choosePet(this,'🐶','Buddy')">🐶<br>Buddy</button><button class="choice" onclick="choosePet(this,'🐱','Miso')">🐱<br>Miso</button><button class="choice" onclick="choosePet(this,'🦊','Ember')">🦊<br>Ember</button><button class="choice" onclick="choosePet(this,'🐸','Sprout')">🐸<br>Sprout</button><button class="choice" onclick="choosePet(this,'🐼','Bean')">🐼<br>Bean</button><button class="choice" onclick="choosePet(this,'🐰','Cloud')">🐰<br>Cloud</button></div><div style="font-size:48px;margin:14px" id="petDisplay">🐶</div><p id="petCheer" class="sub">Buddy is cheering you on!</p></div>
+<div class="card"><b>🪄 Design your emoji</b><p class="tiny">Mix and match a face, hair and accessory. Your design is saved on this device.</p>
+<div class="avatarBuilder">
+  <div class="avatarPreview"><span class="avatarLayer" id="avatarBasePreview">🧑</span><span class="avatarLayer hair" id="avatarHairPreview">💇</span><span class="avatarLayer acc" id="avatarAccPreview">✨</span></div>
+  <div>
+    <div class="builderGroup"><b>Face</b><div class="builderChoices" id="avatarBaseChoices"></div></div>
+    <div class="builderGroup" style="margin-top:8px"><b>Hair</b><div class="builderChoices" id="avatarHairChoices"></div></div>
+    <div class="builderGroup" style="margin-top:8px"><b>Accessory</b><div class="builderChoices" id="avatarAccChoices"></div></div>
+  </div>
+</div>
+<button class="primary full" style="margin-top:10px" onclick="saveCustomAvatar()">✨ Save my emoji</button>
+<p class="tiny" id="avatarSaveStatus" style="margin-top:8px">Your custom emoji will stay saved when you come back.</p></div>
 <div class="card"><b>🎨 Avatar style</b><div class="grid" style="margin-top:12px"><button class="choice" onclick="chooseAvatar(this,'🧑‍🎓')">🧑‍🎓<br>Student</button><button class="choice" onclick="chooseAvatar(this,'🧑‍💻')">🧑‍💻<br>Creator</button><button class="choice" onclick="chooseAvatar(this,'🎧')">🎧<br>Music</button><button class="choice" onclick="chooseAvatar(this,'🧑‍🎨')">🧑‍🎨<br>Artist</button><button class="choice" onclick="chooseAvatar(this,'👩‍🎓')">👩‍🎓<br>Student</button><button class="choice" onclick="chooseAvatar(this,'👩‍💻')">👩‍💻<br>Creator</button><button class="choice" onclick="chooseAvatar(this,'🎧')">🎧<br>Music</button><button class="choice" onclick="chooseAvatar(this,'👩‍🎨')">👩‍🎨<br>Artist</button><button class="choice" onclick="chooseAvatar(this,'🧑‍🚀')">🧑‍🚀<br>Explorer</button></div></div>
 <div class="card"><b>👕 Wardrobe</b><p class="tiny">Build a look from everyday clothes, accessories and shoes. Style is purely cosmetic.</p><div class="grid" id="outfitShop"></div><div class="tiny" style="margin-top:10px">Equipped: <span id="outfit">None</span></div><div id="wardrobeTags" style="margin-top:8px"></div></div></div>
 </section>
@@ -213,7 +282,15 @@ const baseQuests=[
 {id:'tidy',icon:'🧹',title:'Tiny Tidy',desc:'Make one small area a little easier to live in.',xp:30,minutes:10,steps:['Clear one small area','Put away a few things','Stop when the timer ends']},
 {id:'water',icon:'💧',title:'Refill Your Energy',desc:'Grab a drink, take a breath, and give yourself a tiny reset.',xp:20,minutes:5,steps:['Get a drink','Take a few comfortable sips','Finish when ready']},
 {id:'reset',icon:'🌿',title:'Gentle Reset',desc:'Choose one tiny step that would make the next part of your day easier.',xp:25,minutes:7,steps:['Choose one tiny next step','Work on it until the timer ends','Mark what you accomplished']},
-{id:'focus',icon:'🎧',title:'Focus Sprint',desc:'Try one short, distraction-light activity, then stop or continue if you want.',xp:35,minutes:15,steps:['Choose one task','Focus until the timer ends','Decide whether to stop or continue']}
+{id:'focus',icon:'🎧',title:'Focus Sprint',desc:'Try one short, distraction-light activity, then stop or continue if you want.',xp:35,minutes:15,steps:['Choose one task','Focus until the timer ends','Decide whether to stop or continue']},
+{id:'read',icon:'📖',title:'Read a Little',desc:'Read for a short, comfortable stretch. Fiction, nonfiction, comics or anything you enjoy counts.',xp:30,minutes:10,steps:['Pick something to read','Read until the timer ends','Write down one thing you liked or learned']},
+{id:'binder',icon:'📒',title:'Organize Your Binder',desc:'Make school papers easier to find without needing to fix everything at once.',xp:35,minutes:15,steps:['Choose one section','Sort or file a small stack','Stop when the timer ends']},
+{id:'notes',icon:'📝',title:'Clean Up Notes',desc:'Tidy one tiny piece of your notes, planner or digital schoolwork.',xp:30,minutes:10,steps:['Pick one page or note','Rename, sort or tidy it','Stop when the timer ends']},
+{id:'backpack',icon:'🎒',title:'Backpack Reset',desc:'Give your everyday bag a quick reset so tomorrow starts a little easier.',xp:25,minutes:8,steps:['Take out obvious trash','Put important things back','Stop when the timer ends']},
+{id:'plan',icon:'🗓️',title:'Plan One Thing',desc:'Look ahead and choose one thing you want to make easier this week.',xp:25,minutes:7,steps:['Check what is coming up','Choose one priority','Write the next tiny action']},
+{id:'creative',icon:'🎨',title:'Creative Break',desc:'Spend a little time drawing, doodling, crafting or making something just for fun.',xp:30,minutes:12,steps:['Choose a creative activity','Make something until the timer ends','Save or enjoy what you made']},
+{id:'desk',icon:'🪴',title:'Reset Your Study Spot',desc:'Make your desk or study area a little calmer and easier to use.',xp:30,minutes:10,steps:['Clear one small section','Put away a few items','Leave one useful thing ready']},
+{id:'review',icon:'🔎',title:'Quick Review',desc:'Look over something you already learned and refresh your memory.',xp:35,minutes:15,steps:['Choose one topic','Review notes or practice gently','Mark what feels clearer now']}
 ];
 const badges=[
 {id:'first',icon:'🌟',name:'First Step',desc:'Complete your first quest.',ok:s=>s.completed>=1},
@@ -226,17 +303,17 @@ const badges=[
 const outfits=[
 ['hoodie','🧥','Oversized Hoodie',60,'Top'],['denim','👖','Denim Fit',80,'Bottom'],['tee','👕','Everyday Tee',40,'Top'],['jacket','🧥','Street Jacket',140,'Outerwear'],['sweater','🧶','Knit Sweater',120,'Top'],['cargo','👖','Cargo Pants',110,'Bottom'],['sneakers','👟','Sneakers',90,'Shoes'],['boots','🥾','Boots',150,'Shoes'],['cap','🧢','Cap',50,'Accessory'],['beanie','🧢','Beanie',55,'Accessory'],['headphones','🎧','Headphones',100,'Accessory'],['backpack','🎒','Backpack',125,'Accessory'],['glasses','👓','Glasses',70,'Accessory'],['sports','🏀','Sports Set',130,'Set'],['pajamas','😴','Comfy Set',75,'Set']
 ];
-const defaultState={totalXP:0,level:0,xp:0,streak:0,pet:'🐶',petName:'Buddy',avatar:'🧑‍🎓',outfit:'None',coins:0,completed:0,focus:false,lastQuestDay:'',customQuests:[],ownedOutfits:[],theme:'default',reminderTime:'',nickname:'',ageBand:'14-17',leaderboard:false,bg:'#0b0c12',houseTier:0,ownedFurniture:[],ownedOutfitIds:[],outfitParts:[],roomPlacements:{},roomRotations:{},placedFurniture:[],selectedFurnitureId:null};
-let savedState={};try{savedState=JSON.parse(localStorage.getItem('questlyV11')||localStorage.getItem('questlyV10')||localStorage.getItem('questlyV8')||'null')||{}}catch(e){savedState={}};let state={...defaultState,...savedState};
+const defaultState={totalXP:0,level:0,xp:0,streak:0,pet:'🐶',petName:'Buddy',avatar:'🧑‍🎓',outfit:'None',coins:0,completed:0,focus:false,lastQuestDay:'',customQuests:[],ownedOutfits:[],theme:'default',reminderTime:'',nickname:'',ageBand:'14-17',leaderboard:false,bg:'#0b0c12',houseTier:0,ownedFurniture:[],ownedOutfitIds:[],outfitParts:[],roomPlacements:{},roomRotations:{},placedFurniture:[],selectedFurnitureId:null,avatarParts:{base:'🧑',hair:'💇',acc:'✨'}};
+let savedState={};try{savedState=JSON.parse(localStorage.getItem('questlyV13')||localStorage.getItem('questlyV11')||localStorage.getItem('questlyV10')||localStorage.getItem('questlyV8')||'null')||{}}catch(e){savedState={}};let state={...defaultState,...savedState};state.avatarParts={...defaultState.avatarParts,...(state.avatarParts||{})};
 let current=null;
 let questTimer=null,questRemaining=0,questTotal=0,questSize=1.5,questStarted=false,questPaused=false,questStepDone=0;
 
-function save(){localStorage.setItem('questlyV11',JSON.stringify(state))}
+function save(){localStorage.setItem('questlyV13',JSON.stringify(state));localStorage.setItem('questlyV11',JSON.stringify(state))}
 function allQuests(){return [...baseQuests,...state.customQuests]}
 function xpNeeded(){return 100}
-function questHTML(q){return `<button class="quest" onclick="openQuest('${q.id}')"><div class="qicon">${q.icon}</div><div style="min-width:0"><h3>${q.title}</h3><p>${q.desc}</p><div class="tiny">⏱ ${q.minutes||5} min · ${q.steps?q.steps.length:1} steps</div></div><div class="xp">+${q.xp}</div></button>`}
+function questHTML(q){const school=['read','binder','notes','backpack','plan','review'].includes(q.id);const life=['tidy','water','reset','desk','creative'].includes(q.id);const tag=school?'📚 School':life?'🌱 Life':'🎯 Focus';return `<button class="quest" onclick="openQuest('${q.id}')"><div class="qicon">${q.icon}</div><div style="min-width:0"><h3>${q.title}</h3><p>${q.desc}</p><span class="questSeason">${tag}</span><div class="tiny">⏱ ${q.minutes||5} min · ${q.steps?q.steps.length:1} steps</div></div><div class="xp">+${q.xp}</div></button>`}
 function render(){
-document.getElementById('homeQuests').innerHTML=allQuests().slice(0,3).map(questHTML).join('');
+const aq=allQuests();document.getElementById('homeQuests').innerHTML=aq.slice(0,5).map(questHTML).join('');
 document.getElementById('questList').innerHTML=allQuests().map(questHTML).join('');
 updateUI();renderBadges()
 }
@@ -252,8 +329,7 @@ document.getElementById('badgesCount').textContent=badges.filter(b=>b.ok(state))
 document.getElementById('totalXP').textContent=state.totalXP;
 document.getElementById('statsCoins').textContent=state.coins;
 document.getElementById('statsStreak').textContent=state.streak;
-document.getElementById('homeAvatar').textContent=state.avatar+((state.outfit&&state.outfit!=='None')?' '+state.outfit:'');
-document.getElementById('charAvatar').textContent=state.avatar;
+const custom=state.avatarParts?`${state.avatarParts.base}${state.avatarParts.hair}${state.avatarParts.acc}`:state.avatar;document.getElementById('homeAvatar').textContent=custom+((state.outfit&&state.outfit!=='None')?' '+state.outfit:'');document.getElementById('charAvatar').textContent=custom;renderAvatarBuilder();
 document.getElementById('petDisplay').textContent=state.pet;
 document.getElementById('petCheer').textContent=`${state.petName} is cheering you on!`;
 const oo=outfits.find(x=>x[0]===state.outfit);const outfitEl=document.getElementById('outfit');if(outfitEl)outfitEl.textContent=oo?oo[2]:'None';const roomOutfitEl=document.getElementById('roomOutfit');if(roomOutfitEl)roomOutfitEl.textContent=oo?oo[1]:'•';renderOutfitShop();
@@ -297,6 +373,25 @@ const oldLevel=state.level;state.totalXP+=current.xp;state.xp+=current.xp;let ea
 function toggleFocus(){state.focus=!state.focus;save();updateUI();toast(state.focus?'🧠 Focus Mode on — one thing at a time.':'🧠 Focus Mode off — choose your pace.')}
 function setEnergy(el,name){document.querySelectorAll('#quests .choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');document.getElementById('energyText').textContent=`${name} quests are a good fit right now.`}
 function choosePet(el,p,name){el.parentElement.querySelectorAll('.choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');state.pet=p;state.petName=name;save();updateUI();toast('🐾 Companion chosen!')}
+const avatarParts={
+base:['🧑','👩','🧒','🧑‍🎓','🧑‍💻','🧑‍🎨'],
+hair:['💇','💇‍♀️','💇‍♂️','🦱','🦰','🧢'],
+acc:['✨','🎧','👓','🎒','⭐','🧢']
+};
+function avatarDesignString(){const p=state.avatarParts||defaultState.avatarParts;return `${p.base}|${p.hair}|${p.acc}`}
+function renderAvatarBuilder(){
+  const p=state.avatarParts||defaultState.avatarParts;
+  const set=(id,items,key)=>{const box=document.getElementById(id);if(!box)return;box.innerHTML=items.map(x=>`<button class="${p[key]===x?'selected':''}" onclick="pickAvatarPart('${key}','${x}')">${x}</button>`).join('')};
+  set('avatarBaseChoices',avatarParts.base,'base');set('avatarHairChoices',avatarParts.hair,'hair');set('avatarAccChoices',avatarParts.acc,'acc');
+  const b=document.getElementById('avatarBasePreview'),h=document.getElementById('avatarHairPreview'),a=document.getElementById('avatarAccPreview');
+  if(b)b.textContent=p.base;if(h)h.textContent=p.hair;if(a)a.textContent=p.acc;
+  const s=document.getElementById('avatarSaveStatus');if(s)s.textContent=`Saved design: ${avatarDesignString()}`;
+}
+function pickAvatarPart(key,value){state.avatarParts={...(state.avatarParts||defaultState.avatarParts),[key]:value};renderAvatarBuilder()}
+function saveCustomAvatar(){
+  state.avatar=`${state.avatarParts.base}${state.avatarParts.hair}${state.avatarParts.acc}`;
+  save();updateUI();renderAvatarBuilder();toast('✨ Your custom emoji is saved!');
+}
 function chooseAvatar(el,a){el.parentElement.querySelectorAll('.choice').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');state.avatar=a;save();updateUI();toast('✨ Avatar updated!')}
 function buyOutfit(id){const o=outfits.find(x=>x[0]===id);if(!o)return;if((state.ownedOutfitIds||[]).includes(id)){state.outfit=id;save();updateUI();toast('✓ Outfit equipped!');return}if(state.coins<o[3]){toast(`You need ${o[3]-state.coins} more coins.`);return}state.coins-=o[3];state.ownedOutfitIds=(state.ownedOutfitIds||[]).concat(id);state.outfit=id;save();updateUI();toast(`${o[1]} ${o[2]} unlocked!`)}
 function createCustomQuest(){const name=document.getElementById('customName').value.trim();const xp=Number(document.getElementById('customXP').value);const minutes=Number(document.getElementById('customMinutes').value);if(!name){toast('Give your quest a name first.');return}state.customQuests.push({id:'custom'+Date.now(),icon:'⭐',title:name,desc:'A quest you created for yourself.',xp,minutes,steps:['Start the timer','Work on your quest','Mark your progress']});save();render();document.getElementById('customName').value='';closeSheets();toast('⭐ Your timed quest was created!')}
